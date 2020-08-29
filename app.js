@@ -22,4 +22,9 @@ app.get("/", (req, res) => {
 
 app.post("/submit", (req, res) => {
     console.log(req.body);
+    res.render("result", {
+        layout : 'result',
+        data : req.body
+    });
 })
+
