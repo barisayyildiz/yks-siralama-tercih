@@ -19,7 +19,6 @@ document.querySelector("#tyt-table").addEventListener("input", e => {
         //console.log(d, y, net);
         //console.log(tyt_table.rows[3].cells[i].childNodes[1]);
 
-        tyt_table.rows[3].cells[i].childNodes[1].type = "number";
         tyt_table.rows[3].cells[i].childNodes[1].value = net;
         tyt_table.rows[3].cells[i].childNodes[1].innerHTML = net;
 
@@ -44,8 +43,9 @@ document.querySelector("#ayt-table").addEventListener("input", e => {
 
         console.log(d, y, net);
 
-        ayt_table.rows[3].cells[i].innerHTML = net;
-        ayt_table.rows[3].cells[i].value = net;
+        ayt_table.rows[3].cells[i].childNodes[1].value = net;
+        ayt_table.rows[3].cells[i].childNodes[1].innerHTML = net;
+        
 
     }
 
