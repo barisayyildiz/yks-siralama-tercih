@@ -17,7 +17,7 @@
         </div>
 
         <div class="tyt">
-            <h3>TYT</h3>
+            <h3>TYT Netlerim</h3>
             <table id="tyt-table">
                 <thead>
                     <tr>
@@ -62,16 +62,78 @@
                     <tr>
                         <td>Net</td>
                         <td>
-                            <input type="number" name="tyt-tur-Net" disabled>
+                            <input type="hidden" name="tyt-tur-Net" disabled>
                         </td>
                         <td>
-                            <input type="number" name="tyt-sos-Net" disabled>
+                            <input type="hidden" name="tyt-sos-Net" disabled>
                         </td>
                         <td>
-                            <input type="number" name="tyt-mat-Net" disabled>
+                            <input type="hidden" name="tyt-mat-Net" disabled>
                         </td>
                         <td>
-                            <input type="number" name="tyt-fen-Net" disabled>
+                            <input type="hidden" name="tyt-fen-Net" disabled>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="ayt">
+            <h3>AYT Netlerim</h3>
+            <table id="ayt-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Matematik</th>
+                        <th>Fizik</th>
+                        <th>Kimya</th>
+                        <th>Biyoloji</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Doğru</td>
+                        <td>
+                            <input type="number" name="ayt-mat-D" min="0" max="40">
+                        </td>
+                        <td>
+                            <input type="number" name="ayt-fiz-D" min="0" max="14">
+                        </td>
+                        <td>
+                            <input type="number" name="ayt-kim-D" min="0" max="13">
+                        </td>
+                        <td>
+                            <input type="number" name="ayt-bio-D" min="0" max="13">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Yanlış</td>
+                        <td>
+                            <input type="number" name="ayt-mat-Y" min="0" max="40">
+                        </td>
+                        <td>
+                            <input type="number" name="ayt-fiz-Y" min="0" max="14">
+                        </td>
+                        <td>
+                            <input type="number" name="ayt-kim-Y" min="0" max="13">
+                        </td>
+                        <td>
+                            <input type="number" name="ayt-bio-Y" min="0" max="13">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Net</td>
+                        <td>
+                            <input type="hidden" name="ayt-mat-Net">
+                        </td>
+                        <td>
+                            <input type="hidden" name="ayt-fiz-Net">
+                        </td>
+                        <td>
+                            <input type="hidden" name="ayt-kim-Net">
+                        </td>
+                        <td>
+                            <input type="hidden" name="ayt-bio-Net">
                         </td>
                     </tr>
                 </tbody>
