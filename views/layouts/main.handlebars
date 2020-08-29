@@ -12,9 +12,9 @@
     <form action="/submit" method="POST" class="wrapper">
         <div class="header">
             <label for="obp">Diploma Notu : </label>
-            <input type="number" id="obp" id="obp" min="50" max="100" step="0.01"><br>
+            <input type="number" id="obp" name="obp" min="50" max="100" step="0.01"><br>
             <label for="kirik">Geçen Sene Yerleştim :  </label>
-            <input type="checkbox" id="kirik" id="kirik">
+            <input type="checkbox" id="kirik" name="kirik">
         </div>
 
 
@@ -34,46 +34,46 @@
                 <tr>
                     <th scope="row">Doğru</th>
                     <td>
-                        <input type="number" id="tyt-tur-D" min="0" max="40">
+                        <input type="number"  min="0" max="40">
                     </td>
                     <td>
-                        <input type="number" id="tyt-sos-D" min="0" max="20">
+                        <input type="number"  min="0" max="20">
                     </td>
                     <td>
-                        <input type="number" id="tyt-mat-D" min="0" max="40">
+                        <input type="number"  min="0" max="40">
                     </td>
                     <td>
-                        <input type="number" id="tyt-fen-D" min="0" max="20">
+                        <input type="number" min="0" max="20">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row">Yanlış</th>
                     <td>
-                        <input type="number" id="tyt-tur-Y" min="0" max="40">
+                        <input type="number"  min="0" max="40">
                     </td>
                     <td>
-                        <input type="number" id="tyt-sos-Y" min="0" max="20">
+                        <input type="number"  min="0" max="20">
                     </td>
                     <td>
-                        <input type="number" id="tyt-mat-Y" min="0" max="40">
+                        <input type="number"  min="0" max="40">
                     </td>
                     <td>
-                        <input type="number" id="tyt-fen-Y" min="0" max="20">
+                        <input type="number"  min="0" max="20">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row">Net</th>
                     <td>
-                        <input type="hidden" id="tyt-tur-Net">
+                        <input type="number" name="tyt-tur-Net" step="0.01">
                     </td>
                     <td>
-                        <input type="hidden" id="tyt-sos-Net">
+                        <input type="number" name="tyt-sos-Net" step="0.01">
                     </td>
                     <td>
-                        <input type="hidden" id="tyt-mat-Net">
+                        <input type="number" name="tyt-mat-Net" step="0.01">
                     </td>
                     <td>
-                        <input type="hidden" id="tyt-fen-Net">
+                        <input type="number" name="tyt-fen-Net" step="0.01">
                     </td>
                 </tr>
             </tbody>
@@ -100,73 +100,73 @@
                 <tr>
                     <th scope="row">Doğru</th>
                     <td>
-                        <input type="number" id="ayt-mat-D" min="0" max="40">
+                        <input type="number"  min="0" max="40">
                     </td>
                     <td>
-                        <input type="number" id="ayt-fiz-D" min="0" max="14">
+                        <input type="number"  min="0" max="14">
                     </td>
                     <td>
-                        <input type="number" id="ayt-kim-D" min="0" max="13">
+                        <input type="number"  min="0" max="13">
                     </td>
                     <td>
-                        <input type="number" id="ayt-bio-D" min="0" max="13">
+                        <input type="number"  min="0" max="13">
                     </td>
                     <td>
-                        <input type="number" id="ayt-edeb-D" min="0" max="24">
+                        <input type="number"  min="0" max="24">
                     </td>
                     <td>
-                        <input type="number" id="ayt-tarih-D" min="0" max="10">
+                        <input type="number"  min="0" max="10">
                     </td>
                     <td>
-                        <input type="number" id="ayt-cog-D" min="0" max="6">
+                        <input type="number"  min="0" max="6">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row">Yanlış</th>
                     <td>
-                        <input type="number" id="ayt-mat-Y" min="0" max="40">
+                        <input type="number"  min="0" max="40">
                     </td>
                     <td>
-                        <input type="number" id="ayt-fiz-Y" min="0" max="14">
+                        <input type="number"  min="0" max="14">
                     </td>
                     <td>
-                        <input type="number" id="ayt-kim-Y" min="0" max="13">
+                        <input type="number"  min="0" max="13">
                     </td>
                     <td>
-                        <input type="number" id="ayt-bio-Y" min="0" max="13">
+                        <input type="number"  min="0" max="13">
                     </td>
                     <td>
-                        <input type="number" id="ayt-edeb-Y" min="0" max="24">
+                        <input type="number"  min="0" max="24">
                     </td>
                     <td>
-                        <input type="number" id="ayt-tarih-Y" min="0" max="10">
+                        <input type="number"  min="0" max="10">
                     </td>
                     <td>
-                        <input type="number" id="ayt-cog-Y" min="0" max="6">
+                        <input type="number"  min="0" max="6">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row">Net</th>
                     <td>
-                        <input type="hidden" id="ayt-mat-Net" disabled>
+                        <input type="number" name="ayt-mat-Net" step="0.01">
                     </td>
                     <td>
-                        <input type="hidden" id="ayt-fiz-Net" disabled>
+                        <input type="number" name="ayt-fiz-Net" step="0.01">
                     </td>
                     <td>
-                        <input type="hidden" id="ayt-kim-Net" disabled>
+                        <input type="number" name="ayt-kim-Net" step="0.01">
                     </td>
                     <td>
-                        <input type="hidden" id="ayt-bio-Net" disabled>
+                        <input type="number" name="ayt-bio-Net" step="0.01">
                     </td>
                     <td>
-                        <input type="hidden" id="ayt-edeb-Net" disabled>
+                        <input type="number" name="ayt-edeb-Net" step="0.01">
                     </td>
                     <td>
-                        <input type="hidden" id="ayt-tarih-Net" disabled>
+                        <input type="number" name="ayt-tarih-Net" step="0.01">
                     </td>
                     <td>
-                        <input type="hidden" id="ayt-cog-Net" disabled>
+                        <input type="number" name="ayt-cog-Net" step="0.01">
                     </td>
                 </tr>
             </tbody>

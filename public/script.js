@@ -16,10 +16,13 @@ document.querySelector("#tyt-table").addEventListener("input", e => {
         y = isNaN(y) ? 0 : y;
         let net = d - y/4;
 
-        console.log(d, y, net);
-        
-        tyt_table.rows[3].cells[i].value = net;
-        tyt_table.rows[3].cells[i].innerHTML = net;
+        //console.log(d, y, net);
+        //console.log(tyt_table.rows[3].cells[i].childNodes[1]);
+
+        tyt_table.rows[3].cells[i].childNodes[1].type = "number";
+        tyt_table.rows[3].cells[i].childNodes[1].value = net;
+        tyt_table.rows[3].cells[i].childNodes[1].innerHTML = net;
+
         
 
     }

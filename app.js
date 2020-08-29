@@ -23,6 +23,14 @@ app.get("/", (req, res) => {
 app.post("/submit", (req, res) => {
     //console.log(req.body["ayt-mat-Y"] == "");
     console.log(req.body);
+
+    /*
+    var superSecret = function(req.body){
+        Object.keys(spy).forEach(function(key){ spy[key] = "redacted" });
+        return spy;
+    }
+    */
+
     res.render("result", {
         layout : 'result',
         data : req.body
