@@ -17,164 +17,166 @@
             <input type="checkbox" id="kirik" name="kirik">
         </div>
 
-        <h3>TYT Netlerim</h3>
-        <div class="tyt">
-            <table id="tyt-table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Türkçe</th>
-                        <th>Sosyal</th>
-                        <th>Matematik</th>
-                        <th>Fen</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Doğru</td>
-                        <td>
-                            <input type="number" name="tyt-tur-D" min="0" max="40">
-                        </td>
-                        <td>
-                            <input type="number" name="tyt-sos-D" min="0" max="20">
-                        </td>
-                        <td>
-                            <input type="number" name="tyt-mat-D" min="0" max="40">
-                        </td>
-                        <td>
-                            <input type="number" name="tyt-fen-D" min="0" max="20">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Yanlış</td>
-                        <td>
-                            <input type="number" name="tyt-tur-Y" min="0" max="40">
-                        </td>
-                        <td>
-                            <input type="number" name="tyt-sos-Y" min="0" max="20">
-                        </td>
-                        <td>
-                            <input type="number" name="tyt-mat-Y" min="0" max="40">
-                        </td>
-                        <td>
-                            <input type="number" name="tyt-fen-Y" min="0" max="20">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Net</td>
-                        <td>
-                            <input type="hidden" name="tyt-tur-Net" disabled>
-                        </td>
-                        <td>
-                            <input type="hidden" name="tyt-sos-Net" disabled>
-                        </td>
-                        <td>
-                            <input type="hidden" name="tyt-mat-Net" disabled>
-                        </td>
-                        <td>
-                            <input type="hidden" name="tyt-fen-Net" disabled>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
 
-        <div class="ayt">
-            <h3>AYT Netlerim</h3>
-            <table id="ayt-table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Matematik</th>
-                        <th>Fizik</th>
-                        <th>Kimya</th>
-                        <th>Biyoloji</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Doğru</td>
-                        <td>
-                            <input type="number" name="ayt-mat-D" min="0" max="40">
-                        </td>
-                        <td>
-                            <input type="number" name="ayt-fiz-D" min="0" max="14">
-                        </td>
-                        <td>
-                            <input type="number" name="ayt-kim-D" min="0" max="13">
-                        </td>
-                        <td>
-                            <input type="number" name="ayt-bio-D" min="0" max="13">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Yanlış</td>
-                        <td>
-                            <input type="number" name="ayt-mat-Y" min="0" max="40">
-                        </td>
-                        <td>
-                            <input type="number" name="ayt-fiz-Y" min="0" max="14">
-                        </td>
-                        <td>
-                            <input type="number" name="ayt-kim-Y" min="0" max="13">
-                        </td>
-                        <td>
-                            <input type="number" name="ayt-bio-Y" min="0" max="13">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Net</td>
-                        <td>
-                            <input type="hidden" name="ayt-mat-Net">
-                        </td>
-                        <td>
-                            <input type="hidden" name="ayt-fiz-Net">
-                        </td>
-                        <td>
-                            <input type="hidden" name="ayt-kim-Net">
-                        </td>
-                        <td>
-                            <input type="hidden" name="ayt-bio-Net">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <h3>TYT Netlerim</h3>
+     <div class="tyt">
+        <table class="table table-dark" id = "tyt-table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Türkçe</th>
+                    <th scope="col">Sosyal</th>
+                    <th scope="col">Matematik</th>
+                    <th scope="col">Fen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Doğru</th>
+                    <td>
+                        <input type="number" name="tyt-tur-D" min="0" max="40">
+                    </td>
+                    <td>
+                        <input type="number" name="tyt-sos-D" min="0" max="20">
+                    </td>
+                    <td>
+                        <input type="number" name="tyt-mat-D" min="0" max="40">
+                    </td>
+                    <td>
+                        <input type="number" name="tyt-fen-D" min="0" max="20">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Yanlış</th>
+                    <td>
+                        <input type="number" name="tyt-tur-Y" min="0" max="40">
+                    </td>
+                    <td>
+                        <input type="number" name="tyt-sos-Y" min="0" max="20">
+                    </td>
+                    <td>
+                        <input type="number" name="tyt-mat-Y" min="0" max="40">
+                    </td>
+                    <td>
+                        <input type="number" name="tyt-fen-Y" min="0" max="20">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Net</th>
+                    <td>
+                        <input type="hidden" name="tyt-tur-Net">
+                    </td>
+                    <td>
+                        <input type="hidden" name="tyt-sos-Net">
+                    </td>
+                    <td>
+                        <input type="hidden" name="tyt-mat-Net">
+                    </td>
+                    <td>
+                        <input type="hidden" name="tyt-fen-Net">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
+    <h3>AYT Netlerim</h3>
+
+    <div class="ayt">
+        <table class="table table-dark" id = "ayt-table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Matematik</th>
+                    <th scope="col">Fizik</th>
+                    <th scope="col">Kimya</th>
+                    <th scope="col">Biyoloji</th>
+                    <th scope="col">Edebiyat</th>
+                    <th scope="col">Tarih</th>
+                    <th scope="col">Coğrafya</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Doğru</th>
+                    <td>
+                        <input type="number" name="ayt-mat-D" min="0" max="40">
+                    </td>
+                    <td>
+                        <input type="number" name="ayt-fiz-D" min="0" max="14">
+                    </td>
+                    <td>
+                        <input type="number" name="ayt-kim-D" min="0" max="13">
+                    </td>
+                    <td>
+                        <input type="number" name="ayt-bio-D" min="0" max="13">
+                    </td>
+                    <td>
+                        <input type="number" name="ayt-edeb-D" min="0" max="24">
+                    </td>
+                    <td>
+                        <input type="number" name="ayt-tarih-D" min="0" max="10">
+                    </td>
+                    <td>
+                        <input type="number" name="ayt-cog-D" min="0" max="6">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Yanlış</th>
+                    <td>
+                        <input type="number" name="ayt-mat-Y" min="0" max="40">
+                    </td>
+                    <td>
+                        <input type="number" name="ayt-fiz-Y" min="0" max="14">
+                    </td>
+                    <td>
+                        <input type="number" name="ayt-kim-Y" min="0" max="13">
+                    </td>
+                    <td>
+                        <input type="number" name="ayt-bio-Y" min="0" max="13">
+                    </td>
+                    <td>
+                        <input type="number" name="ayt-edeb-Y" min="0" max="24">
+                    </td>
+                    <td>
+                        <input type="number" name="ayt-tarih-Y" min="0" max="10">
+                    </td>
+                    <td>
+                        <input type="number" name="ayt-cog-Y" min="0" max="6">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Net</th>
+                    <td>
+                        <input type="hidden" name="ayt-mat-Net" disabled>
+                    </td>
+                    <td>
+                        <input type="hidden" name="ayt-fiz-Net" disabled>
+                    </td>
+                    <td>
+                        <input type="hidden" name="ayt-kim-Net" disabled>
+                    </td>
+                    <td>
+                        <input type="hidden" name="ayt-bio-Net" disabled>
+                    </td>
+                    <td>
+                        <input type="hidden" name="ayt-edeb-Net" disabled>
+                    </td>
+                    <td>
+                        <input type="hidden" name="ayt-tarih-Net" disabled>
+                    </td>
+                    <td>
+                        <input type="hidden" name="ayt-cog-Net" disabled>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        
         <input type="submit" value="Submit">
     </form>
 
-
-    <table class="table table-dark" style="width: 30%;">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
+   
 
 
     <script src="script.js"></script>

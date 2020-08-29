@@ -6,7 +6,7 @@ body
 .wrapper
 {
     border: 1px solid black;
-    width: 60%;
+    width: 80%;
     margin: 30px auto;
     padding: 20px;
 }
@@ -22,6 +22,32 @@ label
     font-size: 1.3em;
 }
 
+table
+{
+    width: 100%;
+    text-align: center;
+}
+
+
+thead tr th
+{
+    width: 10%;
+    padding : 10px 10px;
+}
+
+td input
+{
+    width: 60%;
+    text-align: center;
+    font-size: 1.25em;
+}
+
+tr
+{
+    line-height: 40px;
+}
+
+/*
 #tyt-table
 {
     width: 80%;
@@ -67,6 +93,8 @@ input
     color : white;
     border : none;
 }
+
+*/
 
 
 
