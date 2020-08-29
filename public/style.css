@@ -6,9 +6,14 @@ body
 .wrapper
 {
     border: 1px solid black;
-    width: 80%;
+    width: 90%;
     margin: 30px auto;
     padding: 20px;
+}
+
+input[type="checkbox"]{
+    width: 20px; /*Desired width*/
+    height: 20px; /*Desired height*/
 }
 
 .header
@@ -32,7 +37,6 @@ table
 thead tr th
 {
     width: 10%;
-    padding : 10px 10px;
 }
 
 td input
@@ -46,57 +50,6 @@ tr
 {
     line-height: 40px;
 }
-
-/*
-#tyt-table
-{
-    width: 80%;
-    margin : 0px auto;
-    text-align: center;
-    background-color:  #222;
-    color : white;
-    border-collapse: collapse;
-}
-
-#tyt-table thead tr th
-{
-    width: 20%;
-    padding : 10px 0px;
-
-}
-
-table th td
-{
-    padding : 10px;
-}
-
-#tyt-table tbody tr td
-{
-    width: 20%;
-    padding : 10px 0px;
-    border: 1px solid grey;
-
-}
-
-#tyt-table tbody tr td input
-{
-    width: 90%;
-    box-sizing: border-box;
-    height: 50px;
-    text-align: center;
-    font-size: 1.3em;
-}
-
-input
-{
-    background-color: #222222;
-    color : white;
-    border : none;
-}
-
-*/
-
-
 
 
 input::-webkit-outer-spin-button,

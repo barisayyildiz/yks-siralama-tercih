@@ -21,6 +21,7 @@ app.get("/", (req, res) => {
 })
 
 app.post("/submit", (req, res) => {
+    //console.log(req.body["ayt-mat-Y"] == "");
     console.log(req.body);
     res.render("result", {
         layout : 'result',

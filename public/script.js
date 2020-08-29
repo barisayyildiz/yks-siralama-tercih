@@ -17,9 +17,10 @@ document.querySelector("#tyt-table").addEventListener("input", e => {
         let net = d - y/4;
 
         console.log(d, y, net);
-
-        tyt_table.rows[3].cells[i].innerHTML = net;
+        
         tyt_table.rows[3].cells[i].value = net;
+        tyt_table.rows[3].cells[i].innerHTML = net;
+        
 
     }
 
