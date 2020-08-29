@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>YKS Sıralama Hesaplama</title>
+</head>
+<body>
+
+    <form action="/submit" method="POST" class="wrapper">
+        <div class="header">
+            <label for="obp">Diploma Notu : </label>
+            <input type="number" id="obp" name="obp" min="50" max="100"><br>
+            <label for="kirik">Geçen Sene Yerleştim :  </label>
+            <input type="checkbox" id="kirik" name="kirik">
+        </div>
+
+        <div class="tyt">
+            <h3>TYT</h3>
+            <table id="tyt-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Türkçe</th>
+                        <th>Sosyal</th>
+                        <th>Matematik</th>
+                        <th>Fen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Doğru</td>
+                        <td>
+                            <input type="number" name="tyt-tur-D" min="0" max="40">
+                        </td>
+                        <td>
+                            <input type="number" name="tyt-sos-D" min="0" max="20">
+                        </td>
+                        <td>
+                            <input type="number" name="tyt-mat-D" min="0" max="40">
+                        </td>
+                        <td>
+                            <input type="number" name="tyt-fen-D" min="0" max="20">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Yanlış</td>
+                        <td>
+                            <input type="number" name="tyt-tur-Y" min="0" max="40">
+                        </td>
+                        <td>
+                            <input type="number" name="tyt-sos-Y" min="0" max="20">
+                        </td>
+                        <td>
+                            <input type="number" name="tyt-mat-Y" min="0" max="40">
+                        </td>
+                        <td>
+                            <input type="number" name="tyt-fen-Y" min="0" max="20">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Net</td>
+                        <td>
+                            <input type="number" name="tyt-tur-Net" disabled>
+                        </td>
+                        <td>
+                            <input type="number" name="tyt-sos-Net" disabled>
+                        </td>
+                        <td>
+                            <input type="number" name="tyt-mat-Net" disabled>
+                        </td>
+                        <td>
+                            <input type="number" name="tyt-fen-Net" disabled>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <input type="submit" value="Submit">
+    </form>
+
+
+    <script src="script.js"></script>
+    
+</body>
+</html>

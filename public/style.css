@@ -1,0 +1,36 @@
+.wrapper
+{
+    border: 1px solid black;
+    width: 60%;
+    margin: 0px auto;
+    padding: 20px;
+}
+
+.header
+{
+    border: 1px solid red;
+    padding : 20px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+label
+{
+    font-size: 1.3em;
+}
+
+table
+{
+    border: 1px solid tomato;
+    text-align: center;
+}
+
+/*
+table tr td:nth-child(2) {
+    background: #ccc;
+}
+*/
