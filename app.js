@@ -72,7 +72,7 @@ app.post("/submit", (req, res) => {
     
     let rankings = calculateRanking({
             ham : {tyt : tyt_point.hamPuan, say : ayt_point.hamPuan.say, ea : ayt_point.hamPuan.ea}, 
-            yer : {tyt : tyt_point.hamPuan, say : ayt_point.yerPuan.say, ea : ayt_point.yerPuan.ea}
+            yer : {tyt : tyt_point.yerPuan, say : ayt_point.yerPuan.say, ea : ayt_point.yerPuan.ea}
     });
     
     console.log(rankings);
@@ -142,11 +142,25 @@ function calculateRanking(puan){
         //let rankings = {ham : {tytFlag = true, sayFlag = true, eaFlag = true}, yer : {}};
         let rankings = {ham : {}, yer : {}};
         rankings.ham.tytFlag = true, rankings.ham.sayFlag = true, rankings.ham.eaFlag = true;
+        rankings.yer.tytFlag = true, rankings.yer.sayFlag = true, rankings.yer.eaFlag = true;
+
+        console.log("test : ", yigilma[0].yer);
+        if(yigilma[0].ham == undefined)
+        {
+            console.log("++");
+        }else
+        {
+            console.log("--");
+        }
 
         
         //ham sonuçlar
         for(let i=0; i<yigilma.length; i++)
         {
+            if(yigilma[i].ham === undefined)
+                continue;
+            
+
             //tyt
             if((puan.ham.tyt > yigilma[i].ham.puan) && rankings.ham.tytFlag)
             {
@@ -191,6 +205,60 @@ function calculateRanking(puan){
 
                 let r = ((yigilma[i].ham.ea - yigilma[i-1].ham.ea) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)) * (puan.ham.ea - yigilma[i].ham.puan) + yigilma[i].ham.ea;
                 rankings.ham.ea = r;
+
+            }
+        }
+
+        //yerleştirme sonuçlar
+        for(let i=0; i<yigilma.length; i++)
+        {
+            if(yigilma[i].yer === undefined)
+                continue;
+
+            //tyt
+            if((puan.yer.tyt > yigilma[i].yer.puan) && rankings.ham.tytFlag)
+            {
+                console.log(puan.yer.tyt, yigilma[i].ham.puan);
+                
+                rankings.yer.tytFlag = false;
+                if(i === 0)
+                {
+                    rankings.yer.tyt = 1;
+                    continue;
+                }
+
+                let r = ((yigilma[i].yer.tyt - yigilma[i-1].yer.tyt) / (yigilma[i].yer.puan - yigilma[i-1].yer.puan) * (puan.yer.tyt - yigilma[i].yer.puan)) + yigilma[i].yer.tyt;
+                //console.log(" s : ", (yigilma[i].ham.tyt - yigilma[i-1].ham.tyt / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)));
+                rankings.ham.tyt = r;
+
+            }
+            //ayt say
+            if((puan.yer.say > yigilma[i].yer.puan) && rankings.yer.sayFlag)
+            {
+                rankings.yer.sayFlag = false;
+                if(i === 0)
+                {
+                    rankings.yer.say = 1;
+                    continue;
+                }
+
+                let r = ((yigilma[i].yer.say - yigilma[i-1].yer.say) / (yigilma[i].yer.puan - yigilma[i-1].yer.puan)) * (puan.yer.say - yigilma[i].yer.puan) + yigilma[i].yer.say;
+                rankings.yer.say = r;
+
+            }
+
+            //ayt ea
+            if((puan.yer.ea > yigilma[i].yer.puan) && rankings.yer.eaFlag)
+            {
+                rankings.yer.eaFlag = false;
+                if(i === 0)
+                {
+                    rankings.yer.ea = 1;
+                    continue;
+                }
+
+                let r = ((yigilma[i].yer.ea - yigilma[i-1].yer.ea) / (yigilma[i].yer.puan - yigilma[i-1].yer.puan)) * (puan.yer.ea - yigilma[i].yer.puan) + yigilma[i].yer.ea;
+                rankings.yer.ea = r;
 
             }
         }
