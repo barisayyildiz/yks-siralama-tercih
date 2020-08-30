@@ -6,7 +6,16 @@ const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
 mongoose.connect('mongodb://localhost/yks', {useNewUrlParser: true, useUnifiedTopology: true});
 
-const Model = mongoose.model('ham_puan', {puan : Number, tyt : Number, say : Number, ea : Number}, 'ham_puan');
+const Schema = new mongoose.Schema({
+    ham : {
+        puan : Number,
+        tyt : Number,
+        say : Number,
+        ea : Number
+    }
+})
+
+const Model = mongoose.model('2019', Schema, '2019');
 
 
 //Model.create({puan : 600, tyt : 1, say : 1, ea : 1});
@@ -39,20 +48,27 @@ app.post("/submit", (req, res) => {
         return spy;
     }
     */
-
-    req.body = arrange(req.body);
-    req.body = toInt(req.body);
-
-    let tyt_point = calculateTyt(req.body["tyt-tur"], req.body["tyt-sos"], req.body["tyt-mat"], req.body["tyt-fen"], req.body["obp"]);
-    let ayt_point = calculateAyt(req.body);
-
-    console.log(req.body["obp"]);
     
+    let data = arrange(req.body);
+
+    console.log(data);
+
+    let tyt_point = calculateTyt(req.body);
+    let ayt_point = calculateAyt(req.body);
+   
     console.log(tyt_point);
     console.log(ayt_point);
 
-    Model.find({}, (err, docs) => console.log(docs));
+    let rankings = calculateRanking({
+            ham : {tyt : tyt_point.hamPuan, say : ayt_point.hamPuan.say, ea : ayt_point.hamPuan.ea}, 
+            yer : {tyt : tyt_point.hamPuan, say : ayt_point.yerPuan.say, ea : ayt_point.yerPuan.ea}
+    });
+    
+    console.log(rankings);
 
+    
+
+    //Model.find({}, (err, docs) => console.log(docs));
 
     res.render("result", {
         layout : 'result',
@@ -65,31 +81,30 @@ function arrange(data)
 {
     Object.keys(data).forEach(key => {
         if(data[key] == "")
+        {
             data[key] = 0;
+        }else if(key !== "kirik")
+        {
+            //convert to floating number
+            data[key] = parseFloat(Number.parseFloat(data[key]).toFixed(2));
+        }else if(key === "kirik")
+        {
+            data["obp"] /= 2;
+        }
     })
 
     return data;
 
 }
 
-function toInt(data)
-{
-    Object.keys(data).forEach(key => {
 
-        data[key] = parseFloat(Number.parseFloat(data[key]).toFixed(2));
-
-        //data[key] = parseFloat(data[key]);
-    })
-
-    return data;
-}
-
-function calculateTyt(tur, sos, mat, fen, obp)
+function calculateTyt(data)
 {
     //return (tur * 3.4 + sos * 3.4 + mat * 3.3 + fen * 3.4 + 100);
+    //req.body["tyt-tur"], req.body["tyt-sos"], req.body["tyt-mat"], req.body["tyt-fen"], req.body["obp"]
     return {
-        hamPuan : tur * 3.4 + sos * 3.4 + mat * 3.3 + fen * 3.4 + 100,
-        yerPuan : tur * 3.4 + sos * 3.4 + mat * 3.3 + fen * 3.4 + 100 + obp * 0.6
+        hamPuan : data["tyt-tur"] * 3.3 +  data["tyt-sos"] * 3.4 + data["tyt-mat"] * 3.3 + data["tyt-fen"] * 3.4 + 100,
+        yerPuan : data["tyt-tur"] * 3.3 + data["tyt-sos"] * 3.4 + data["tyt-mat"] * 3.3 + data["tyt-fen"] * 3.4 + 100 + data["obp"] * 0.6
     };
 
 }
@@ -108,4 +123,68 @@ function calculateAyt(data)
         hamPuan : {say : result.say, ea : result.ea},
         yerPuan : {say : result.say + data["obp"] * 0.6, ea : result.ea + data["obp"] * 0.6}
     };
+}
+
+function calculateRanking(data){
+
+    Model.find({}, (err, docs) => {
+
+        //let rankings = {ham : {tytFlag = true, sayFlag = true, eaFlag = true}, yer : {}};
+        let rankings = {ham : {}, yer : {}};
+        rankings.ham.tytFlag = true, rankings.ham.sayFlag = true, rankings.ham.eaFlag = true;
+
+        
+        //ham sonuçlar
+        for(let i=0; i<docs.length; i++)
+        {
+            //tyt
+            if((data.ham.tyt > docs[i].ham.tyt) && rankings.ham.tytFlag)
+            {
+                rankings.ham.tytFlag = false;
+                if(i === 0)
+                {
+                    rankings.ham.tyt = 1;
+                    continue;
+                }
+
+                let r = ((docs[i].ham.tyt - docs[i-1].ham.tyt / (docs[i].ham.puan - docs[i-1].ham.puan)) * (data.ham.tyt - docs[i].ham.puan)) + docs[i].ham.tyt;
+                rankings.ham.tyt = r;
+
+            }
+            //ayt say
+            if((data.ham.say > docs[i].ham.say) && rankings.ham.sayFlag)
+            {
+                rankings.ham.sayFlag = false;
+                if(i === 0)
+                {
+                    rankings.ham.say = 1;
+                    continue;
+                }
+
+                let r = ((docs[i].ham.say - docs[i-1].ham.say / (docs[i].ham.puan - docs[i-1].ham.puan)) * (data.ham.say - docs[i].ham.puan)) + docs[i].ham.say;
+                rankings.ham.say = r;
+
+            }
+
+            //ayt ea
+            if((data.ham.ea > docs[i].ham.ea) && rankings.ham.eaFlag)
+            {
+                rankings.ham.eaFlag = false;
+                if(i === 0)
+                {
+                    rankings.ham.ea = 1;
+                    continue;
+                }
+
+                let r = ((docs[i].ham.ea - docs[i-1].ham.ea / (docs[i].ham.puan - docs[i-1].ham.puan)) * (data.ham.ea - docs[i].ham.puan)) + docs[i].ham.ea;
+                rankings.ham.ea = r;
+
+            }
+        }
+
+        console.log(rankings);
+        return rankings;
+
+    })
+
 }
