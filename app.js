@@ -56,16 +56,26 @@ app.post("/submit", (req, res) => {
     let tyt_point = calculateTyt(req.body);
     let ayt_point = calculateAyt(req.body);
    
-    console.log(tyt_point);
-    console.log(ayt_point);
+    //console.log(tyt_point);
+    //console.log(ayt_point);
 
+    
+    console.log({
+        ham : {tyt : tyt_point.hamPuan, say : ayt_point.hamPuan.say, ea : ayt_point.hamPuan.ea}, 
+        yer : {tyt : tyt_point.hamPuan, say : ayt_point.yerPuan.say, ea : ayt_point.yerPuan.ea}
+    });
+    
+
+    
+
+
+    
     let rankings = calculateRanking({
             ham : {tyt : tyt_point.hamPuan, say : ayt_point.hamPuan.say, ea : ayt_point.hamPuan.ea}, 
             yer : {tyt : tyt_point.hamPuan, say : ayt_point.yerPuan.say, ea : ayt_point.yerPuan.ea}
     });
     
     console.log(rankings);
-
     
 
     //Model.find({}, (err, docs) => console.log(docs));
@@ -125,9 +135,9 @@ function calculateAyt(data)
     };
 }
 
-function calculateRanking(data){
+function calculateRanking(puan){
 
-    Model.find({}, (err, docs) => {
+    Model.find({}, (err, yigilma) => {
 
         //let rankings = {ham : {tytFlag = true, sayFlag = true, eaFlag = true}, yer : {}};
         let rankings = {ham : {}, yer : {}};
@@ -135,11 +145,13 @@ function calculateRanking(data){
 
         
         //ham sonuçlar
-        for(let i=0; i<docs.length; i++)
+        for(let i=0; i<yigilma.length; i++)
         {
             //tyt
-            if((data.ham.tyt > docs[i].ham.tyt) && rankings.ham.tytFlag)
+            if((puan.ham.tyt > yigilma[i].ham.puan) && rankings.ham.tytFlag)
             {
+                console.log(puan.ham.tyt, yigilma[i].ham.puan);
+                
                 rankings.ham.tytFlag = false;
                 if(i === 0)
                 {
@@ -147,12 +159,13 @@ function calculateRanking(data){
                     continue;
                 }
 
-                let r = ((docs[i].ham.tyt - docs[i-1].ham.tyt / (docs[i].ham.puan - docs[i-1].ham.puan)) * (data.ham.tyt - docs[i].ham.puan)) + docs[i].ham.tyt;
+                let r = ((yigilma[i].ham.tyt - yigilma[i-1].ham.tyt) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan) * (puan.ham.tyt - yigilma[i].ham.puan)) + yigilma[i].ham.tyt;
+                //console.log(" s : ", (yigilma[i].ham.tyt - yigilma[i-1].ham.tyt / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)));
                 rankings.ham.tyt = r;
 
             }
             //ayt say
-            if((data.ham.say > docs[i].ham.say) && rankings.ham.sayFlag)
+            if((puan.ham.say > yigilma[i].ham.puan) && rankings.ham.sayFlag)
             {
                 rankings.ham.sayFlag = false;
                 if(i === 0)
@@ -161,13 +174,13 @@ function calculateRanking(data){
                     continue;
                 }
 
-                let r = ((docs[i].ham.say - docs[i-1].ham.say / (docs[i].ham.puan - docs[i-1].ham.puan)) * (data.ham.say - docs[i].ham.puan)) + docs[i].ham.say;
+                let r = ((yigilma[i].ham.say - yigilma[i-1].ham.say) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)) * (puan.ham.say - yigilma[i].ham.puan) + yigilma[i].ham.say;
                 rankings.ham.say = r;
 
             }
 
             //ayt ea
-            if((data.ham.ea > docs[i].ham.ea) && rankings.ham.eaFlag)
+            if((puan.ham.ea > yigilma[i].ham.puan) && rankings.ham.eaFlag)
             {
                 rankings.ham.eaFlag = false;
                 if(i === 0)
@@ -176,7 +189,7 @@ function calculateRanking(data){
                     continue;
                 }
 
-                let r = ((docs[i].ham.ea - docs[i-1].ham.ea / (docs[i].ham.puan - docs[i-1].ham.puan)) * (data.ham.ea - docs[i].ham.puan)) + docs[i].ham.ea;
+                let r = ((yigilma[i].ham.ea - yigilma[i-1].ham.ea) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)) * (puan.ham.ea - yigilma[i].ham.puan) + yigilma[i].ham.ea;
                 rankings.ham.ea = r;
 
             }
