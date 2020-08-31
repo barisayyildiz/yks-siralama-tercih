@@ -118,7 +118,7 @@ function arrange(data)
         }else if(key !== "kirik")
         {
             //convert to floating number
-            data[key] = parseFloat(Number.parseFloat(data[key]).toFixed(2));
+            data[key] = Number(data[key]);
         }else if(key === "kirik")
         {
             data["obp"] /= 2;
@@ -135,8 +135,8 @@ function calculateTyt(data)
     //return (tur * 3.4 + sos * 3.4 + mat * 3.3 + fen * 3.4 + 100);
     //req.body["tyt-tur"], req.body["tyt-sos"], req.body["tyt-mat"], req.body["tyt-fen"], req.body["obp"]
     return {
-        ham : data["tyt-tur"] * 3.3 +  data["tyt-sos"] * 3.4 + data["tyt-mat"] * 3.3 + data["tyt-fen"] * 3.4 + 100,
-        yer : data["tyt-tur"] * 3.3 + data["tyt-sos"] * 3.4 + data["tyt-mat"] * 3.3 + data["tyt-fen"] * 3.4 + 100 + data["obp"] * 0.6
+        ham : Number((data["tyt-tur"] * 3.3 +  data["tyt-sos"] * 3.4 + data["tyt-mat"] * 3.3 + data["tyt-fen"] * 3.4 + 100).toFixed(5)),
+        yer : Number((data["tyt-tur"] * 3.3 + data["tyt-sos"] * 3.4 + data["tyt-mat"] * 3.3 + data["tyt-fen"] * 3.4 + 100 + data["obp"] * 0.6).toFixed(5))
     };
 
 }
@@ -152,8 +152,8 @@ function calculateAyt(data)
     result.ea += data["ayt-mat"] * 3 + data["ayt-edeb"] * 3 + data["ayt-tar"] * 2.8 + data["ayt-cog"] * 3.33 + 100;
 
     return {
-        ham : {say : result.say, ea : result.ea},
-        yer : {say : result.say + data["obp"] * 0.6, ea : result.ea + data["obp"] * 0.6}
+        ham : {say : Number((result.say).toFixed(5)), ea : Number((result.ea).toFixed(12))},
+        yer : {say : Number((result.say + data["obp"] * 0.6).toFixed(5)), ea : Number((result.ea + data["obp"] * 0.6).toFixed(5))}
     };
 }
 
