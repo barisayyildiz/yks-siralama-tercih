@@ -12,6 +12,12 @@ const Schema = new mongoose.Schema({
         tyt : Number,
         say : Number,
         ea : Number
+    },
+    yer : {
+        puan : Number,
+        tyt : Number,
+        say : Number,
+        ea : Number
     }
 })
 
@@ -62,7 +68,7 @@ app.post("/submit", (req, res) => {
     
     console.log({
         ham : {tyt : tyt_point.hamPuan, say : ayt_point.hamPuan.say, ea : ayt_point.hamPuan.ea}, 
-        yer : {tyt : tyt_point.hamPuan, say : ayt_point.yerPuan.say, ea : ayt_point.yerPuan.ea}
+        yer : {tyt : tyt_point.yerPuan, say : ayt_point.yerPuan.say, ea : ayt_point.yerPuan.ea}
     });
     
 
@@ -144,18 +150,10 @@ function calculateRanking(puan){
         rankings.ham.tytFlag = true, rankings.ham.sayFlag = true, rankings.ham.eaFlag = true;
         rankings.yer.tytFlag = true, rankings.yer.sayFlag = true, rankings.yer.eaFlag = true;
 
-        console.log("test : ", yigilma[0].yer);
-        if(yigilma[0].ham == undefined)
-        {
-            console.log("++");
-        }else
-        {
-            console.log("--");
-        }
 
         
         //ham sonuçlar
-        for(let i=0; i<yigilma.length; i++)
+        for(let i=0; i<19; i++)
         {
             if(yigilma[i].ham === undefined)
                 continue;
@@ -209,19 +207,23 @@ function calculateRanking(puan){
             }
         }
 
+        console.log("test : ", yigilma[30].yer);
+
+
         //yerleştirme sonuçlar
-        for(let i=0; i<yigilma.length; i++)
+        for(let i=19; i<yigilma.length; i++)
         {
             if(yigilma[i].yer === undefined)
                 continue;
+                
 
             //tyt
             if((puan.yer.tyt > yigilma[i].yer.puan) && rankings.ham.tytFlag)
             {
-                console.log(puan.yer.tyt, yigilma[i].ham.puan);
+                console.log("asd");
                 
                 rankings.yer.tytFlag = false;
-                if(i === 0)
+                if(i === 19)
                 {
                     rankings.yer.tyt = 1;
                     continue;
@@ -235,6 +237,7 @@ function calculateRanking(puan){
             //ayt say
             if((puan.yer.say > yigilma[i].yer.puan) && rankings.yer.sayFlag)
             {
+                console.log("i : ", i);
                 rankings.yer.sayFlag = false;
                 if(i === 0)
                 {
