@@ -54,11 +54,13 @@ app.use(express.urlencoded({
 
 app.get("/", (req, res) => {
 
-    res.render('index', {});
+    res.render('index', {
+        style : "./style/style.css"
+    });
 
 })
 
-app.post("/submit", (req, res) => {
+app.post("/submit", async (req, res) => {
     //console.log(req.body["ayt-mat-Y"] == "");
 
     /*
@@ -80,28 +82,29 @@ app.post("/submit", (req, res) => {
 
     
     console.log({
-        ham : {tyt : tyt_point.hamPuan, say : ayt_point.hamPuan.say, ea : ayt_point.hamPuan.ea}, 
-        yer : {tyt : tyt_point.yerPuan, say : ayt_point.yerPuan.say, ea : ayt_point.yerPuan.ea}
+        ham : {tyt : tyt_point.ham, say : ayt_point.ham.say, ea : ayt_point.ham.ea}, 
+        yer : {tyt : tyt_point.yer, say : ayt_point.yer.say, ea : ayt_point.yer.ea}
     });
     
 
     
 
 
-    
-    let rankings = calculateRanking({
-            ham : {tyt : tyt_point.hamPuan, say : ayt_point.hamPuan.say, ea : ayt_point.hamPuan.ea}, 
-            yer : {tyt : tyt_point.yerPuan, say : ayt_point.yerPuan.say, ea : ayt_point.yerPuan.ea}
-    });
-    
+    let rankings = await calculateRanking({
+            ham : {tyt : tyt_point.ham, say : ayt_point.ham.say, ea : ayt_point.ham.ea}, 
+            yer : {tyt : tyt_point.yer, say : ayt_point.yer.say, ea : ayt_point.yer.ea}
+    })
+
     console.log(rankings);
     
 
     //Model.find({}, (err, docs) => console.log(docs));
 
     res.render("result", {
-        layout : 'result',
-        data : req.body
+        rankings : rankings,
+        tytPoints : tyt_point,
+        aytPoints : ayt_point,
+        style : "./style/result.css"
     });
 })
 
@@ -132,8 +135,8 @@ function calculateTyt(data)
     //return (tur * 3.4 + sos * 3.4 + mat * 3.3 + fen * 3.4 + 100);
     //req.body["tyt-tur"], req.body["tyt-sos"], req.body["tyt-mat"], req.body["tyt-fen"], req.body["obp"]
     return {
-        hamPuan : data["tyt-tur"] * 3.3 +  data["tyt-sos"] * 3.4 + data["tyt-mat"] * 3.3 + data["tyt-fen"] * 3.4 + 100,
-        yerPuan : data["tyt-tur"] * 3.3 + data["tyt-sos"] * 3.4 + data["tyt-mat"] * 3.3 + data["tyt-fen"] * 3.4 + 100 + data["obp"] * 0.6
+        ham : data["tyt-tur"] * 3.3 +  data["tyt-sos"] * 3.4 + data["tyt-mat"] * 3.3 + data["tyt-fen"] * 3.4 + 100,
+        yer : data["tyt-tur"] * 3.3 + data["tyt-sos"] * 3.4 + data["tyt-mat"] * 3.3 + data["tyt-fen"] * 3.4 + 100 + data["obp"] * 0.6
     };
 
 }
@@ -149,274 +152,129 @@ function calculateAyt(data)
     result.ea += data["ayt-mat"] * 3 + data["ayt-edeb"] * 3 + data["ayt-tar"] * 2.8 + data["ayt-cog"] * 3.33 + 100;
 
     return {
-        hamPuan : {say : result.say, ea : result.ea},
-        yerPuan : {say : result.say + data["obp"] * 0.6, ea : result.ea + data["obp"] * 0.6}
+        ham : {say : result.say, ea : result.ea},
+        yer : {say : result.say + data["obp"] * 0.6, ea : result.ea + data["obp"] * 0.6}
     };
 }
 
-function calculateRanking(puan){
+async function calculateRanking(puan)
+{
+    console.log("----");
+    let rankings = { ham : {}, yer : {}};
+    rankings.ham.tytFlag = true, rankings.ham.sayFlag = true, rankings.ham.eaFlag = true;
+    rankings.yer.tytFlag = true, rankings.yer.sayFlag = true, rankings.yer.eaFlag = true;
+    
+    
+    let yigilma = await hamYiginsal.find({});
+    //console.log(yigilma[0].yer);
 
-    console.log("-------")
-
-    hamYiginsal.find({}, (err, yigilma) => {
-
-        let rankings = {};
-        rankings.tytFlag = true, rankings.sayFlag = true, rankings.eaFlag = true;
-
-        for(let i=0; i<yigilma.length; i++)
+    for(let i=0; i<yigilma.length; i++)
+    {
+        //tyt
+        if((puan.ham.tyt > yigilma[i].ham.puan) && rankings.ham.tytFlag)
         {
-            //tyt
-            if((puan.ham.tyt > yigilma[i].ham.puan) && rankings.tytFlag)
-            {
-                console.log(puan.ham.tyt, yigilma[i].ham.puan);
-                
-                rankings.tytFlag = false;
-                if(puan.ham.tyt >= 500)
-                {
-                    rankings.tyt = 1;
-                    continue;
-                }
-
-                let r = ((yigilma[i].ham.tyt - yigilma[i-1].ham.tyt) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan) * (puan.ham.tyt - yigilma[i].ham.puan)) + yigilma[i].ham.tyt;
-                //console.log(" s : ", (yigilma[i].ham.tyt - yigilma[i-1].ham.tyt / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)));
-                rankings.tyt = r;
-
-            }
-            //ayt say
-            if((puan.ham.say > yigilma[i].ham.puan) && rankings.sayFlag)
-            {
-                rankings.sayFlag = false;
-                if(puan.ham.say >= 500)
-                {
-                    rankings.say = 1;
-                    continue;
-                }
-
-                let r = ((yigilma[i].ham.say - yigilma[i-1].ham.say) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)) * (puan.ham.say - yigilma[i].ham.puan) + yigilma[i].ham.say;
-                rankings.say = r;
-
-            }
-
-            //ayt ea
-            if((puan.ham.ea > yigilma[i].ham.puan) && rankings.eaFlag)
-            {
-                rankings.eaFlag = false;
-                if(puan.ham.ea >= 500)
-                {
-                    rankings.ea = 1;
-                    continue;
-                }
-
-                let r = ((yigilma[i].ham.ea - yigilma[i-1].ham.ea) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)) * (puan.ham.ea - yigilma[i].ham.puan) + yigilma[i].ham.ea;
-                rankings.ea = r;
-
-            }   
-
-        }
-
-        console.log(rankings);
-
-    })
-
-    yerYiginsal.find({}, (err, yigilma) => {
-
-        let rankings = {};
-        rankings.tytFlag = true, rankings.sayFlag = true, rankings.eaFlag = true;
-
-        for(let i=19; i<yigilma.length; i++)
-        {
-            //tyt
-            if((puan.yer.tyt > yigilma[i].yer.puan) && rankings.tytFlag)
-            {
-                console.log(puan.yer.tyt, yigilma[i].yer.puan);
-                
-                rankings.tytFlag = false;
-                if(puan.yer.tyt >= 550)
-                {
-                    rankings.tyt = 1;
-                    continue;
-                }
-
-                let r = ((yigilma[i].yer.tyt - yigilma[i-1].yer.tyt) / (yigilma[i].yer.puan - yigilma[i-1].yer.puan) * (puan.yer.tyt - yigilma[i].yer.puan)) + yigilma[i].yer.tyt;
-                //console.log(" s : ", (yigilma[i].ham.tyt - yigilma[i-1].ham.tyt / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)));
-                rankings.tyt = r;
-
-            }
-            //ayt say
-            if((puan.yer.say > yigilma[i].yer.puan) && rankings.sayFlag)
-            {
-                rankings.sayFlag = false;
-                if(puan.yer.say >= 550)
-                {
-                    rankings.say = 1;
-                    continue;
-                }
-
-                let r = ((yigilma[i].yer.say - yigilma[i-1].yer.say) / (yigilma[i].yer.puan - yigilma[i-1].yer.puan)) * (puan.yer.say - yigilma[i].yer.puan) + yigilma[i].yer.say;
-                rankings.say = r;
-
-            }
-
-            //ayt ea
-            if((puan.yer.ea > yigilma[i].yer.puan) && rankings.eaFlag)
-            {
-                rankings.eaFlag = false;
-                if(puan.yer.ea >= 550)
-                {
-                    rankings.ea = 1;
-                    continue;
-                }
-
-                let r = ((yigilma[i].yer.ea - yigilma[i-1].yer.ea) / (yigilma[i].yer.puan - yigilma[i-1].yer.puan)) * (puan.yer.ea - yigilma[i].yer.puan) + yigilma[i].yer.ea;
-                rankings.ea = r;
-
-            }   
-
-        }
-
-        console.log(rankings);
-
-    })
-
-    /*
-    Model.find({}, (err, yigilma) => {
-
-        //let rankings = {ham : {tytFlag = true, sayFlag = true, eaFlag = true}, yer : {}};
-        let rankings = {ham : {}, yer : {}};
-        rankings.ham.tytFlag = true, rankings.ham.sayFlag = true, rankings.ham.eaFlag = true;
-        rankings.yer.tytFlag = true, rankings.yer.sayFlag = true, rankings.yer.eaFlag = true;
-
-        console.log("test : ", yigilma[0].yer);
-        if(yigilma[0].ham == undefined)
-        {
-            console.log("++");
-        }else
-        {
-            console.log("--");
-        }
-
-        
-        //ham sonuçlar
-        for(let i=0; i<yigilma.length; i++)
-        {
-            if(yigilma[i].ham === undefined)
-                continue;
             
-
-            //tyt
-            if((puan.ham.tyt > yigilma[i].ham.puan) && rankings.ham.tytFlag)
+            rankings.ham.tytFlag = false;
+            if(puan.ham.tyt >= 500)
             {
-                console.log(puan.ham.tyt, yigilma[i].ham.puan);
-                
-                rankings.ham.tytFlag = false;
-                if(i === 0)
-                {
-                    rankings.ham.tyt = 1;
-                    continue;
-                }
-
-                let r = ((yigilma[i].ham.tyt - yigilma[i-1].ham.tyt) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan) * (puan.ham.tyt - yigilma[i].ham.puan)) + yigilma[i].ham.tyt;
-                //console.log(" s : ", (yigilma[i].ham.tyt - yigilma[i-1].ham.tyt / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)));
-                rankings.ham.tyt = r;
-
-            }
-            //ayt say
-            if((puan.ham.say > yigilma[i].ham.puan) && rankings.ham.sayFlag)
-            {
-                rankings.ham.sayFlag = false;
-                if(i === 0)
-                {
-                    rankings.ham.say = 1;
-                    continue;
-                }
-
-                let r = ((yigilma[i].ham.say - yigilma[i-1].ham.say) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)) * (puan.ham.say - yigilma[i].ham.puan) + yigilma[i].ham.say;
-                rankings.ham.say = r;
-
-            }
-
-            //ayt ea
-            if((puan.ham.ea > yigilma[i].ham.puan) && rankings.ham.eaFlag)
-            {
-                rankings.ham.eaFlag = false;
-                if(i === 0)
-                {
-                    rankings.ham.ea = 1;
-                    continue;
-                }
-
-                let r = ((yigilma[i].ham.ea - yigilma[i-1].ham.ea) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)) * (puan.ham.ea - yigilma[i].ham.puan) + yigilma[i].ham.ea;
-                rankings.ham.ea = r;
-
-            }
-        }
-
-        console.log(" i :", yigilma.length);
-
-        //yerleştirme sonuçlar
-        for(let i=0; i<yigilma.length; i++)
-        {
-            if(yigilma[i].yer === undefined)
+                rankings.ham.tyt = 1;
                 continue;
-
-            //tyt
-            if((puan.yer.tyt > yigilma[i].yer.puan) && rankings.ham.tytFlag)
-            {
-                console.log(puan.yer.tyt, yigilma[i].ham.puan);
-                
-                rankings.yer.tytFlag = false;
-                if(i === 0)
-                {
-                    rankings.yer.tyt = 1;
-                    continue;
-                }
-
-                let r = ((yigilma[i].yer.tyt - yigilma[i-1].yer.tyt) / (yigilma[i].yer.puan - yigilma[i-1].yer.puan) * (puan.yer.tyt - yigilma[i].yer.puan)) + yigilma[i].yer.tyt;
-                //console.log(" s : ", (yigilma[i].ham.tyt - yigilma[i-1].ham.tyt / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)));
-                rankings.yer.tyt = r;
-
-                console.log(" r-tyt : ", r);
-
-            }
-            //ayt say
-            if((puan.yer.say > yigilma[i].yer.puan) && rankings.yer.sayFlag)
-            {
-                rankings.yer.sayFlag = false;
-                if(i === 0)
-                {
-                    rankings.yer.say = 1;
-                    continue;
-                }
-
-                let r = ((yigilma[i].yer.say - yigilma[i-1].yer.say) / (yigilma[i].yer.puan - yigilma[i-1].yer.puan)) * (puan.yer.say - yigilma[i].yer.puan) + yigilma[i].yer.say;
-                rankings.yer.say = r;
-
-                console.log(" r-say : ", r);
-
             }
 
-            //ayt ea
-            if((puan.yer.ea > yigilma[i].yer.puan) && rankings.yer.eaFlag)
+            let r = ((yigilma[i].ham.tyt - yigilma[i-1].ham.tyt) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan) * (puan.ham.tyt - yigilma[i].ham.puan)) + yigilma[i].ham.tyt;
+            //console.log(" s : ", (yigilma[i].ham.tyt - yigilma[i-1].ham.tyt / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)));
+            rankings.ham.tyt = Math.round(r);
+
+        }
+        //ayt say
+        if((puan.ham.say > yigilma[i].ham.puan) && rankings.ham.sayFlag)
+        {
+            rankings.ham.sayFlag = false;
+            if(puan.ham.say >= 500)
             {
-                rankings.yer.eaFlag = false;
-                if(i === 0)
-                {
-                    rankings.yer.ea = 1;
-                    continue;
-                }
-
-                let r = ((yigilma[i].yer.ea - yigilma[i-1].yer.ea) / (yigilma[i].yer.puan - yigilma[i-1].yer.puan)) * (puan.yer.ea - yigilma[i].yer.puan) + yigilma[i].yer.ea;
-                rankings.yer.ea = r;
-
-                console.log(" r-ea : ", r);
-
+                rankings.ham.say = 1;
+                continue;
             }
+
+            let r = ((yigilma[i].ham.say - yigilma[i-1].ham.say) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)) * (puan.ham.say - yigilma[i].ham.puan) + yigilma[i].ham.say;
+            rankings.ham.say = Math.round(r);
+
         }
 
-        console.log(rankings);
-        return rankings;
+        //ayt ea
+        if((puan.ham.ea > yigilma[i].ham.puan) && rankings.ham.eaFlag)
+        {
+            rankings.ham.eaFlag = false;
+            if(puan.ham.ea >= 500)
+            {
+                rankings.ham.ea = 1;
+                continue;
+            }
 
-    })
-    */
+            let r = ((yigilma[i].ham.ea - yigilma[i-1].ham.ea) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)) * (puan.ham.ea - yigilma[i].ham.puan) + yigilma[i].ham.ea;
+            rankings.ham.ea = Math.round(r);
+
+        }   
+
+    }
+
+
+    yigilma = await yerYiginsal.find({});
+
+    for(let i=19; i<yigilma.length; i++)
+    {
+        //tyt
+        if((puan.yer.tyt > yigilma[i].yer.puan) && rankings.yer.tytFlag)
+        {
+            
+            rankings.yer.tytFlag = false;
+            if(puan.yer.tyt >= 550)
+            {
+                rankings.yer.tyt = 1;
+                continue;
+            }
+
+            let r = ((yigilma[i].yer.tyt - yigilma[i-1].yer.tyt) / (yigilma[i].yer.puan - yigilma[i-1].yer.puan) * (puan.yer.tyt - yigilma[i].yer.puan)) + yigilma[i].yer.tyt;
+            //console.log(" s : ", (yigilma[i].ham.tyt - yigilma[i-1].ham.tyt / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)));
+            rankings.yer.tyt = Math.round(r);
+
+        }
+        //ayt say
+        if((puan.yer.say > yigilma[i].yer.puan) && rankings.yer.sayFlag)
+        {
+            rankings.yer.sayFlag = false;
+            if(puan.yer.say >= 550)
+            {
+                rankings.yer.say = 1;
+                continue;
+            }
+
+            let r = ((yigilma[i].yer.say - yigilma[i-1].yer.say) / (yigilma[i].yer.puan - yigilma[i-1].yer.puan)) * (puan.yer.say - yigilma[i].yer.puan) + yigilma[i].yer.say;
+            rankings.yer.say = Math.round(r);
+
+        }
+
+        //ayt ea
+        if((puan.yer.ea > yigilma[i].yer.puan) && rankings.yer.eaFlag)
+        {
+            rankings.yer.eaFlag = false;
+            if(puan.yer.ea >= 550)
+            {
+                rankings.yer.ea = 1;
+                continue;
+            }
+
+            let r = ((yigilma[i].yer.ea - yigilma[i-1].yer.ea) / (yigilma[i].yer.puan - yigilma[i-1].yer.puan)) * (puan.yer.ea - yigilma[i].yer.puan) + yigilma[i].yer.ea;
+            rankings.yer.ea = Math.round(r);
+
+        }   
+
+    }
+
+
+    //console.log("rankings : ", rankings);
+
+
+    return rankings;
 
 }

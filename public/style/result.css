@@ -1,0 +1,24 @@
+.wrapper
+{
+    margin : 20px auto;
+    width: 80%;
+    border: 1px solid purple;
+    height: 200px;
+}
+
+table
+{
+    float : left;
+}
+
+#ham
+{
+    width: 30%;
+    border: 1px solid black;
+}
+
+#yer
+{
+    width: 60%;
+    border: 1px solid red;
+}
