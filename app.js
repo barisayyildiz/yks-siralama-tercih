@@ -68,6 +68,10 @@ app.post("/gonder", (req, res) => {
 
     console.log(data);
 
+    let tytPuan = calculateTyt(data);
+    let aytPuan = calculateAyt(data);
+    console.log(tytPuan, aytPuan);
+
     res.end();
 })
 
@@ -177,8 +181,8 @@ function calculateTyt(data)
     //return (tur * 3.4 + sos * 3.4 + mat * 3.3 + fen * 3.4 + 100);
     //req.body["tyt-tur"], req.body["tyt-sos"], req.body["tyt-mat"], req.body["tyt-fen"], req.body["obp"]
     return {
-        ham : Number((data["tyt-tur"] * 3.24 +  data["tyt-sos"] * 3.66 + data["tyt-mat"] * 3.34 + data["tyt-fen"] * 3.41 + 100).toFixed(5)),
-        yer : Number((data["tyt-tur"] * 3.24 + data["tyt-sos"] * 3.66 + data["tyt-mat"] * 3.34 + data["tyt-fen"] * 3.41 + 100 + data["obp"] * 0.6).toFixed(5))
+        ham : Number((data.tyt.tur * 3.24 +  data.tyt.sos * 3.66 + data.tyt.mat * 3.34 + data.tyt.fen * 3.41 + 100).toFixed(5)),
+        yer : Number((data.tyt.tur * 3.24 + data.tyt.sos * 3.66 + data.tyt.mat * 3.34 + data.tyt.fen * 3.41 + 100 + data.meta.obp * 0.6).toFixed(5))
     };
 
 }
@@ -187,15 +191,18 @@ function calculateAyt(data)
 {
     let result = {};
 
-    result.say = data["tyt-tur"] * 1.38 + data["tyt-sos"] * 1.56 + data["tyt-mat"] * 1.43 + data["tyt-fen"] * 1.46; //tyt
-    result.say += data["ayt-mat"] * 2.71 + data["ayt-fiz"] * 3.15 + data["ayt-kim"] * 2.77 + data["ayt-bio"] * 3.31 + 100; //ayt
+    result.say = data.tyt.tur * 1.38 + data.tyt.sos * 1.56 + data.tyt.mat * 1.43 + data.tyt.fen * 1.46; //tyt
+    result.say += data.say.mat * 2.71 + data.say.fiz * 3.15 + data.say.kim * 2.77 + data.say.bio * 3.31 + 100; //ayt
     
-    result.ea = data["tyt-tur"] * 1.38 + data["tyt-sos"] * 1.55 + data["tyt-mat"] * 1.42 + data["tyt-fen"] * 1.45;
-    result.ea += data["ayt-mat"] * 2.69 + data["ayt-edeb"] * 3.18 + data["ayt-tar"] * 3.54 + data["ayt-cog"] * 2.96 + 100;
+    result.ea = data.tyt.tur * 1.38 + data.tyt.sos * 1.55 + data.tyt.mat * 1.42 + data.tyt.fen * 1.45;
+    result.ea += data.say.mat * 2.69 + data.ea.edeb * 3.18 + data.ea.tar * 3.54 + data.ea.cog * 2.96 + 100;
+
+    result.soz = data.tyt.tur * 1.35 + data.tyt.sos * 1.53 + data.tyt.mat * 1.40 + data.tyt.fen * 1.42; //tyt
+    result.soz += data.ea.edeb * 3.12 + data.ea.tar * 3.48 + data.ea.cog * 2.91 + data.soz.tar * 3.7 + data.soz.cog * 2.6 + data.soz.fel * 3.22 + data.soz.din * 3.94
 
     return {
-        ham : {say : Number((result.say).toFixed(5)), ea : Number((result.ea).toFixed(12))},
-        yer : {say : Number((result.say + data["obp"] * 0.6).toFixed(5)), ea : Number((result.ea + data["obp"] * 0.6).toFixed(5))}
+        ham : {say : Number((result.say).toFixed(5)), ea : Number((result.ea).toFixed(5)), soz : Number((result.soz.toFixed(5)))},
+        yer : {say : Number((result.say + data.meta.obp * 0.6).toFixed(5)), ea : Number((result.ea + data.meta.obp * 0.6).toFixed(5)), soz : Number((result.soz + data.meta.obp * 0.6).toFixed(5))}
     };
 }
 
