@@ -60,6 +60,11 @@ app.get("/", (req, res) => {
 
 })
 
+app.post("/deneme", (req, res) => {
+    console.log(req.body);
+    res.end();
+})
+
 app.post("/submit", async (req, res) => {
     //console.log(req.body["ayt-mat-Y"] == "");
 
