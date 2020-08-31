@@ -60,8 +60,14 @@ app.get("/", (req, res) => {
 
 })
 
-app.post("/deneme", (req, res) => {
-    console.log(req.body);
+app.post("/gonder", (req, res) => {
+    //console.log(req.body);
+
+
+    let data = arrange(req.body);
+
+    console.log(data);
+
     res.end();
 })
 
@@ -116,6 +122,7 @@ app.post("/submit", async (req, res) => {
 
 function arrange(data)
 {
+    /*
     Object.keys(data).forEach(key => {
         if(data[key] == "")
         {
@@ -124,13 +131,43 @@ function arrange(data)
         {
             //convert to floating number
             data[key] = Number(data[key]);
-        }else if(key === "kirik")
+        }else if(key === "kirik" && data[key] === true)
         {
             data["obp"] /= 2;
         }
     })
 
     return data;
+    */
+
+    Object.keys(data).forEach(key => {
+
+        console.log(data[key]);
+
+        Object.keys(data[key]).forEach(item => {
+            //console.log(item, data[key][item]);
+
+            if(data[key][item] === "")
+            {
+                data[key][item] = 0;
+            }else if(item !== "kirik")
+            {
+                data[key][item] = Number(data[key][item]);
+            }else if(item === "kirik" && data[key][item] == true)
+            {
+                data["meta"]["obp"] /= 2;
+            }
+
+        });
+
+    });
+
+    return data;
+
+    /*
+    console.log("-----------");
+    console.log(data.tyt);
+    */
 
 }
 

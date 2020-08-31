@@ -1,0 +1,46 @@
+.wrapper
+{
+    width: 80%;
+    border: 1px solid pink;
+    margin: 0px auto;
+}
+
+table
+{
+    border-collapse: collapse;
+    margin: 30px auto;
+    text-align: center;
+}
+
+input
+{
+    width: 100%;
+    border: none;
+    text-align: center;
+}
+
+input:active
+{
+    border: none;
+}
+
+table tr th
+{
+    border : 1px solid black;
+    padding : 2px 20px;
+    background-color: rgb(232,230,251);
+}
+
+table tr td
+{
+    border : 1px solid black;
+}
+
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
