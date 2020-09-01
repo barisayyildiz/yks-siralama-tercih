@@ -60,7 +60,7 @@ app.get("/", (req, res) => {
 
 })
 
-app.post("/gonder", (req, res) => {
+app.post("/gonder", async (req, res) => {
     //console.log(req.body);
 
 
@@ -68,26 +68,51 @@ app.post("/gonder", (req, res) => {
 
     console.log(data);
 
-    let tytPuan = calculateTyt(data);
-    let aytPuan = calculateAyt(data);
-    console.log(tytPuan, aytPuan);
+    let tytPoints = calculateTyt(data);
+    let aytPoints = calculateAyt(data);
+    console.log(tytPoints, aytPoints);
 
-    res.end();
-})
+    
 
-app.post("/submit", async (req, res) => {
-    //console.log(req.body["ayt-mat-Y"] == "");
+    let rankings = await calculateRanking({
+        ham : {tyt : tytPoints.ham, say : aytPoints.ham.say, ea : aytPoints.ham.ea, soz : aytPoints.ham.soz}, 
+        yer : {tyt : tytPoints.yer, say : aytPoints.yer.say, ea : aytPoints.yer.ea, soz : aytPoints.yer.soz}
+    })
+
+    //console.log("rankings : ", rankings);
+
+    
+    res.render("result", {
+        rankings : rankings,
+        tytPoints : tytPoints,
+        aytPoints : aytPoints,
+        style : "./style/result.css"
+    });
+    
 
     /*
-    var superSecret = function(req.body){
-        Object.keys(spy).forEach(function(key){ spy[key] = "redacted" });
-        return spy;
-    }
+
+    res.render("result", {
+        rankings : rankings,
+        tytPoints : tyt_point,
+        aytPoints : ayt_point,
+        style : "./style/result.css"
+    });
+
+
     */
+})
+
+/*
+app.post("/submit", async (req, res) => {
+    console.log("#####################");
+    //console.log(req.body["ayt-mat-Y"] == "");
+
+    
     
     let data = arrange(req.body);
 
-    console.log(data);
+    //console.log(data);
 
     let tyt_point = calculateTyt(req.body);
     let ayt_point = calculateAyt(req.body);
@@ -96,10 +121,6 @@ app.post("/submit", async (req, res) => {
     //console.log(ayt_point);
 
     
-    console.log({
-        ham : {tyt : tyt_point.ham, say : ayt_point.ham.say, ea : ayt_point.ham.ea}, 
-        yer : {tyt : tyt_point.yer, say : ayt_point.yer.say, ea : ayt_point.yer.ea}
-    });
     
 
     
@@ -122,7 +143,7 @@ app.post("/submit", async (req, res) => {
         style : "./style/result.css"
     });
 })
-
+*/
 
 function arrange(data)
 {
@@ -208,10 +229,9 @@ function calculateAyt(data)
 
 async function calculateRanking(puan)
 {
-    console.log("----");
     let rankings = { ham : {}, yer : {}};
-    rankings.ham.tytFlag = true, rankings.ham.sayFlag = true, rankings.ham.eaFlag = true;
-    rankings.yer.tytFlag = true, rankings.yer.sayFlag = true, rankings.yer.eaFlag = true;
+    rankings.ham.tytFlag = true, rankings.ham.sayFlag = true, rankings.ham.eaFlag = true, rankings.ham.sozFlag = true;
+    rankings.yer.tytFlag = true, rankings.yer.sayFlag = true, rankings.yer.eaFlag = true, rankings.yer.sozFlag = true;
     
     
     let yigilma = await hamYiginsal.find({});
@@ -263,7 +283,23 @@ async function calculateRanking(puan)
             let r = ((yigilma[i].ham.ea - yigilma[i-1].ham.ea) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)) * (puan.ham.ea - yigilma[i].ham.puan) + yigilma[i].ham.ea;
             rankings.ham.ea = Math.round(r);
 
-        }   
+        }
+        
+        //ayt söz
+        if((puan.ham.soz > yigilma[i].ham.puan) && rankings.ham.sozFlag)
+        {
+            rankings.ham.sozFlag = false;
+            if(puan.ham.soz >= 500)
+            {
+                rankings.ham.soz = 1;
+                continue;
+            }
+
+            let r = ((yigilma[i].ham.soz - yigilma[i-1].ham.soz) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)) * (puan.ham.soz - yigilma[i].ham.puan) + yigilma[i].ham.soz;
+            rankings.ham.soz = Math.round(r);
+
+        }
+
 
     }
 
@@ -317,6 +353,21 @@ async function calculateRanking(puan)
             rankings.yer.ea = Math.round(r);
 
         }   
+
+        //ayt söz
+        if((puan.yer.soz > yigilma[i].yer.puan) && rankings.yer.sozFlag)
+        {
+            rankings.yer.sozFlag = false;
+            if(puan.yer.soz >= 550)
+            {
+                rankings.yer.soz = 1;
+                continue;
+            }
+
+            let r = ((yigilma[i].yer.soz - yigilma[i-1].yer.soz) / (yigilma[i].yer.puan - yigilma[i-1].yer.puan)) * (puan.yer.soz - yigilma[i].yer.puan) + yigilma[i].yer.soz;
+            rankings.yer.soz = Math.round(r);
+
+        } 
 
     }
 
