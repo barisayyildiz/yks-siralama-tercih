@@ -1,6 +1,4 @@
-
-
-<div class="wrapper">
+<form action="/gonder" method="POST" class="wrapper">
     <div id="tyt">
         <table id="tyt-table">
             <tr>
@@ -50,16 +48,16 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="tyt-tur">
+                    <input type="number" step="0.01" name="tyt-tur">
                 </td>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="tyt-sos">
+                    <input type="number" step="0.01" name="tyt-sos">
                 </td>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="tyt-mat">
+                    <input type="number" step="0.01" name="tyt-mat">
                 </td>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="tyt-fen">
+                    <input type="number" step="0.01" name="tyt-fen">
                 </td>
             </tr>
 
@@ -109,13 +107,13 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="ea-edeb">
+                    <input type="number" step="0.01" name="ea-edeb">
                 </td>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="ea-tar">
+                    <input type="number" step="0.01" name="ea-tar">
                 </td>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="ea-cog">
+                    <input type="number" step="0.01" name="ea-cog">
                 </td>
             </tr>
         </table>
@@ -171,16 +169,16 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="soz-tar">
+                    <input type="number" step="0.01" name="soz-tar">
                 </td>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="soz-cog">
+                    <input type="number" step="0.01" name="soz-cog">
                 </td>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="soz-fel">
+                    <input type="number" step="0.01" name="soz-fel">
                 </td>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="soz-din">
+                    <input type="number" step="0.01" name="soz-din">
                 </td>
                 
             </tr>
@@ -231,16 +229,16 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="say-mat">
+                    <input type="number" step="0.01" name="say-mat">
                 </td>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="say-fiz">
+                    <input type="number" step="0.01" name="say-fiz">
                 </td>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="say-kim">
+                    <input type="number" step="0.01" name="say-kim">
                 </td>
                 <td colspan="2">
-                    <input type="number" step="0.01" id="say-bio">
+                    <input type="number" step="0.01" name="say-bio">
                 </td>
                 
             </tr>
@@ -258,19 +256,16 @@
             </tr>
             <tr>
                 <td>
-                    <input type="number" min="50" max="100" step="0.01" id="diplomaNotu">
+                    <input type="number" min="50" max="100" step="0.01" name="obp">
                 </td>
                 <td>
-                    <input type="checkbox" id="kirik">
+                    <input type="checkbox" name="kirik">
                 </td>
             </tr>
 
         </table>
     </div>
 
-    <button id="btn">Submit</button>
+    <input type="submit">
 
-</div>
-
-
-    <script src="index.js"></script>
+</form>

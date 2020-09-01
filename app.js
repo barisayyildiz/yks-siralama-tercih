@@ -11,7 +11,8 @@ const hamSchema = new mongoose.Schema({
         puan : Number,
         tyt : Number,
         say : Number,
-        ea : Number
+        ea : Number,
+        soz : Number
     }
 })
 
@@ -20,7 +21,8 @@ const yerSchema = new mongoose.Schema({
         puan : Number,
         tyt : Number,
         say : Number,
-        ea : Number
+        ea : Number,
+        soz : Number
     }
 })
 
@@ -61,89 +63,41 @@ app.get("/", (req, res) => {
 })
 
 app.post("/gonder", async (req, res) => {
-    //console.log(req.body);
+    console.log("###################");
+
+    let data = {tyt : {}, say : {}, ea : {}, soz : {}, meta : {}};
+    data.tyt.tur = req.body["tyt-tur"], data.tyt.sos = req.body["tyt-sos"], data.tyt.mat = req.body["tyt-mat"], data.tyt.fen = req.body["tyt-fen"];
+    data.say.mat = req.body["say-mat"], data.say.fiz = req.body["say-fiz"], data.say.kim = req.body["say-kim"], data.say.bio = req.body["say-bio"];
+    data.ea.edeb = req.body["ea-edeb"], data.ea.tar = req.body["ea-tar"], data.ea.cog = req.body["ea-cog"];
+    data.soz.tar = req.body["soz-tar"], data.soz.cog = req.body["soz-cog"], data.soz.fel = req.body["soz-fel"], data.soz.din = req.body["soz-din"];
+    data.meta.obp = req.body["obp"], data.meta.kirik = req.body.kirik !== undefined;
 
 
-    let data = arrange(req.body);
+    data = arrange(data);
 
-    console.log(data);
+    console.log("data : ", data);
 
+    
     let tytPoints = calculateTyt(data);
     let aytPoints = calculateAyt(data);
     console.log(tytPoints, aytPoints);
-
-    
 
     let rankings = await calculateRanking({
         ham : {tyt : tytPoints.ham, say : aytPoints.ham.say, ea : aytPoints.ham.ea, soz : aytPoints.ham.soz}, 
         yer : {tyt : tytPoints.yer, say : aytPoints.yer.say, ea : aytPoints.yer.ea, soz : aytPoints.yer.soz}
     })
 
-    //console.log("rankings : ", rankings);
+    console.log("rank : ", rankings);
 
-    
     res.render("result", {
         rankings : rankings,
         tytPoints : tytPoints,
         aytPoints : aytPoints,
         style : "./style/result.css"
     });
+
     
-
-    /*
-
-    res.render("result", {
-        rankings : rankings,
-        tytPoints : tyt_point,
-        aytPoints : ayt_point,
-        style : "./style/result.css"
-    });
-
-
-    */
 })
-
-/*
-app.post("/submit", async (req, res) => {
-    console.log("#####################");
-    //console.log(req.body["ayt-mat-Y"] == "");
-
-    
-    
-    let data = arrange(req.body);
-
-    //console.log(data);
-
-    let tyt_point = calculateTyt(req.body);
-    let ayt_point = calculateAyt(req.body);
-   
-    //console.log(tyt_point);
-    //console.log(ayt_point);
-
-    
-    
-
-    
-
-
-    let rankings = await calculateRanking({
-            ham : {tyt : tyt_point.ham, say : ayt_point.ham.say, ea : ayt_point.ham.ea}, 
-            yer : {tyt : tyt_point.yer, say : ayt_point.yer.say, ea : ayt_point.yer.ea}
-    })
-
-    console.log(rankings);
-    
-
-    //Model.find({}, (err, docs) => console.log(docs));
-
-    res.render("result", {
-        rankings : rankings,
-        tytPoints : tyt_point,
-        aytPoints : ayt_point,
-        style : "./style/result.css"
-    });
-})
-*/
 
 function arrange(data)
 {
@@ -288,6 +242,7 @@ async function calculateRanking(puan)
         //ayt söz
         if((puan.ham.soz > yigilma[i].ham.puan) && rankings.ham.sozFlag)
         {
+            console.log("++++++++++++ : " , puan.ham.soz, yigilma[i].ham.puan)
             rankings.ham.sozFlag = false;
             if(puan.ham.soz >= 500)
             {
@@ -296,6 +251,9 @@ async function calculateRanking(puan)
             }
 
             let r = ((yigilma[i].ham.soz - yigilma[i-1].ham.soz) / (yigilma[i].ham.puan - yigilma[i-1].ham.puan)) * (puan.ham.soz - yigilma[i].ham.puan) + yigilma[i].ham.soz;
+
+            console.log("RRRRRRR : ", (yigilma[i].ham["soz"]));
+
             rankings.ham.soz = Math.round(r);
 
         }
