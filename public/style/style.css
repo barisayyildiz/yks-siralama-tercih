@@ -1,8 +1,14 @@
+body
+{
+    font-size: 0.8em;
+}
+
+
 .wrapper
 {
     width: 80%;
     border: 1px solid pink;
-    margin: 0px auto;
+    margin: 30px auto;
 }
 
 table
@@ -19,15 +25,11 @@ input
     text-align: center;
 }
 
-input:active
-{
-    border: none;
-}
 
 table tr th
 {
     border : 1px solid black;
-    padding : 2px 20px;
+    padding : 0px 15px;
     background-color: rgb(232,230,251);
 }
 
@@ -38,9 +40,31 @@ table tr td
 
 
 
+@media only screen and (max-width : 800px)
+{
+    body
+    {
+        font-size: 0.7em;
+        text-align: center;
+    }
+    
+    .wrapper
+    {
+        width: 100%;
+    }
+
+    .wrapper  div  table
+    {
+        table-layout: fixed;
+        width: 90%;
+    }
+
+}
+
+
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
