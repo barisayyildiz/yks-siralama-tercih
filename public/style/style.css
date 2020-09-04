@@ -7,7 +7,6 @@ body
 .wrapper
 {
     width: 80%;
-    border: 1px solid pink;
     margin: 30px auto;
 }
 
@@ -47,16 +46,20 @@ table tr td
         font-size: 0.7em;
         text-align: center;
     }
+
+    .wrapper div table tr th
+    {
+        padding : 5px 1px;
+    }
     
     .wrapper
     {
-        width: 100%;
     }
 
     .wrapper  div  table
     {
         table-layout: fixed;
-        width: 90%;
+        margin : 10px auto;
     }
 
 }
