@@ -20,8 +20,15 @@ const yerSchema = new mongoose.Schema({
     }
 })
 
+//===================ÜNİVERSİTELER VERİTABANI
+const uniSchema = new mongoose.Schema({
+    kod : Number,
+    tur : String
+});
+//==================
+
 const hamYiginsal = mongoose.model("ham", hamSchema, '2019'); //ham - yığınsal tablo
 const yerYiginsal = mongoose.model('yer', yerSchema, '2019'); //yerleştirme - yığınsal tablo
+const uniModel = mongoose.model("tercih", {}, "2019_siralama");
 
-
-module.exports = {hamYiginsal, yerYiginsal};
+module.exports = {hamYiginsal, yerYiginsal, uniModel};

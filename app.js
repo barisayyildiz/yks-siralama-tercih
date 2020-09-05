@@ -1,11 +1,23 @@
 const express = require("express");
 const app = express();
 const lib = require("./library.js");
+const Models = require("./models.js");
 
 const exphbs = require("express-handlebars");
 
 const mongoose = require("mongoose");
 mongoose.connect('mongodb://localhost/yks', {useNewUrlParser: true, useUnifiedTopology: true});
+
+
+/*
+//ÜNİVERSİTELER VERİTABANI
+const schema = new mongoose.Schema({
+    kod : Number,
+    tur : String
+});
+const model = mongoose.model("tercih", {}, "2019_siralama");
+*/
+
 
 
 app.listen(3000, () => {console.log("I'm listening...")});
@@ -57,3 +69,53 @@ app.post("/submit", async (req, res) => {
 
     
 })
+
+
+app.get("/tercih", (req, res) => {
+
+    res.render("tercih");
+
+})
+
+
+app.post("/query", (req, res) => {
+
+    console.log(req.body);
+
+    Models.uniModel.find(
+    {
+        "uni" : {"$regex" : `${req.body.universite}`, "$options" : "i"},
+        "bolum" : {"$regex" : `${req.body.bolum}`, "$options" : "i"}
+    }, (err, docs) => {
+        res.send(docs);
+    })
+
+    /*
+    if(req.body.id == "uni")
+    {
+
+        Models.uniModel.find(
+            { 
+                "uni": { "$regex": `${req.body.val}`, "$options": "i" }
+            }, (err, docs) => {
+                res.send(docs);
+        });
+
+
+    }else if(req.body.id == "bolum")
+    {
+
+        Models.uniModel.find(
+            { 
+                "bolum": { "$regex": `${req.body.val}`, "$options": "i" }
+            }, (err, docs) => {
+                res.send(docs);
+        });
+
+    }*/
+
+    
+
+
+})
+
