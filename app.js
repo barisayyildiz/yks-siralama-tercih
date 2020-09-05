@@ -80,15 +80,64 @@ app.get("/tercih", (req, res) => {
 
 app.post("/query", (req, res) => {
 
+    let flag;
+
     console.log(req.body);
 
-    Models.uniModel.find(
-    {
+    let query = {
         "uni" : {"$regex" : `${req.body.universite}`, "$options" : "i"},
-        "bolum" : {"$regex" : `${req.body.bolum}`, "$options" : "i"}
-    }, (err, docs) => {
+        "bolum" : {"$regex" : `${req.body.bolum}`, "$options" : "i"},
+        "$or" : []
+    };
+
+    //puan türleri
+    if(req.body.say) query["$or"].push({"puanTur" : "SAY"});
+    if(req.body.ea) query["$or"].push({"puanTur" : "EA"});
+    if(req.body.soz) query["$or"].push({"puanTur" : "SÖZ"});
+
+    console.log("query -> ", query["$or"]);
+
+    flag = true;
+    if(req.body.say || req.body.ea || req.body.soz)
+        flag = false;
+    if(flag)
+        delete query["$or"];
+
+
+
+    Models.uniModel.find(query, (err, docs) => {
+        if(err)
+        {
+            console.log(err);
+            return;
+        }
         res.send(docs);
+            
     })
+
+
+    /*
+    let flag = true;
+    if(req.body.say || req.body.ea || req.body.soz)
+        flag = false;
+
+
+    if(flag)
+    {
+        Models.uniModel.find(
+        {
+            "uni" : {"$regex" : `${req.body.universite}`, "$options" : "i"},
+            "bolum" : {"$regex" : `${req.body.bolum}`, "$options" : "i"}
+        }, (err, docs) => {
+            res.send(docs)
+        })
+    }else
+    {
+
+    }
+    */
+
+
 
     /*
     if(req.body.id == "uni")

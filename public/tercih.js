@@ -18,11 +18,13 @@ inputs.forEach(element => element.addEventListener("input", event => {
     let data = {
         "universite" : inputs[0].value.turkishToUpper(),
         "bolum" : inputs[1].value,
-        "tyt" : document.getElementById("tyt").checked,
-        "say" : document.getElementById("say").checked,
-        "ea" : document.getElementById("ea").checked,
-        "soz" : document.getElementById("soz").checked,
-
+        "say" : document.getElementById("SAY").checked,
+        "ea" : document.getElementById("EA").checked,
+        "soz" : document.getElementById("SÖZ").checked,
+        "devlet" : document.getElementById("devlet").checked,
+        "ozel" : document.getElementById("ozel").checked,
+        "kktc" : document.getElementById("kktc").checked,
+        "yurtdisi" : document.getElementById("yurtdisi").checked
     };
 
     console.log(data);
@@ -47,37 +49,6 @@ inputs.forEach(element => element.addEventListener("input", event => {
 
 }))
 
-/*
-
-const input = document.querySelector("input");
-
-
-
-input.addEventListener("input", event => {
-
-    console.log(input.value);
-
-    let data = {"val" : input.value.turkishToUpper()};
-
-    fetch("/query", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-
-        //onsole.log(data);
-        createNode(data);
-
-    });
-
-})
-
-*/
 
 function createNode(data)
 {
@@ -98,14 +69,12 @@ function createNode(data)
         return;
 
 
-    //console.log(list);
-
-    
-
-
-
     for(let i=0; i<data.length; i++)
     {
+
+        //if(document.getElementById(data[i].puanTur).checked)
+        //console.log(document.getElementById(data[i].puanTur));
+
 
         let row = document.createElement("tr");
         let uni = document.createElement("td");
@@ -116,7 +85,7 @@ function createNode(data)
         uni.innerText = data[i].uni;
         bolum.innerText = data[i].bolum;
         puan.innerText = data[i].TabanPuan;
-        tur.innerText = data[i].Tur;
+        tur.innerText = data[i].puanTur;
 
         row.appendChild(uni), row.appendChild(bolum), row.appendChild(puan), row.appendChild(tur);
         document.querySelector("table").appendChild(row);
