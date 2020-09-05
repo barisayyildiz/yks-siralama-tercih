@@ -73,7 +73,10 @@ app.post("/submit", async (req, res) => {
 
 app.get("/tercih", (req, res) => {
 
-    res.render("tercih");
+    res.render("tercih", 
+        {
+            style : "./style/tercih.css"
+        });
 
 })
 

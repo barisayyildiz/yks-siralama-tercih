@@ -68,6 +68,9 @@ function createNode(data)
     if(data.length > 300)
         return;
 
+    data = sortByKey(data);
+
+    console.log(data);
 
     for(let i=0; i<data.length; i++)
     {
@@ -97,5 +100,31 @@ function createNode(data)
         list.appendChild(node);
         */
     }
+
+}
+
+function sortByKey(data)
+{
+
+    data.forEach(item => {
+        if(item.TabanPuan == undefined)
+            item.TabanPuan = 0;
+    });
+
+
+    for(let i=0; i<data.length; i++)
+    {
+        for(let j=0; j<data.length-i-1; j++)
+        {
+            if(data[j].TabanPuan < data[j+1].TabanPuan)
+            {
+                let temp = data[j];
+                data[j] = data[j+1];
+                data[j+1] = temp;
+            }
+        }
+    }
+
+    return data;
 
 }
