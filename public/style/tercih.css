@@ -1,3 +1,8 @@
+body
+{
+	font-size: 1.1em;
+}
+
 .wrapper
 {
 	width: 60%;
@@ -25,12 +30,16 @@ table tr td
     padding: 10px 7px;
 }
 
+table tr:hover
+{
+	background-color: rgba(232,230,251, 0.5);
+}
+
 input[type='text']
 {
 	margin: 30px 0px;
 	width: 40%;
 	padding: 10px 20px;
-	font-size: 1.2em;
 
 }
 

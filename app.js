@@ -84,7 +84,7 @@ app.get("/tercih", (req, res) => {
 app.post("/query", (req, res) => {
 
     let flag;
-
+    console.log("*********************************************************************************************************");
     console.log(req.body);
 
     let query = {
@@ -114,8 +114,7 @@ app.post("/query", (req, res) => {
             console.log(err);
             return;
         }
-        res.send(docs);
-            
+        res.send(docs);   
     })
 
 
@@ -170,4 +169,3 @@ app.post("/query", (req, res) => {
 
 
 })
-

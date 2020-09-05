@@ -20,11 +20,7 @@ inputs.forEach(element => element.addEventListener("input", event => {
         "bolum" : inputs[1].value,
         "say" : document.getElementById("SAY").checked,
         "ea" : document.getElementById("EA").checked,
-        "soz" : document.getElementById("SÖZ").checked,
-        "devlet" : document.getElementById("devlet").checked,
-        "ozel" : document.getElementById("ozel").checked,
-        "kktc" : document.getElementById("kktc").checked,
-        "yurtdisi" : document.getElementById("yurtdisi").checked
+        "soz" : document.getElementById("SÖZ").checked
     };
 
     console.log(data);
@@ -69,8 +65,9 @@ function createNode(data)
         return;
 
     data = sortByKey(data);
+    data = trimData(data);
 
-    console.log(data);
+    //console.log(data);
 
     for(let i=0; i<data.length; i++)
     {
@@ -102,6 +99,25 @@ function createNode(data)
     }
 
 }
+
+
+//Üniversite türüne göre çıkar!!
+function trimData(data)
+{
+    let temp = [];
+
+
+    for(let i=0; i<data.length; i++)
+    {
+        if(document.getElementById("devlet").checked && data[i].uniTur == "Devlet") temp.push(data[i]);
+        if(document.getElementById("ozel").checked && data[i].uniTur == "Özel") temp.push(data[i]);
+        if(document.getElementById("kktc").checked && data[i].uniTur == "KKTC") temp.push(data[i]);
+        if(document.getElementById("yurtdisi").checked && data[i].uniTur == "Yurtdışı") temp.push(data[i]);
+    }
+    return temp;
+
+}
+
 
 function sortByKey(data)
 {
