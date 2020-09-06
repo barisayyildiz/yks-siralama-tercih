@@ -48,3 +48,9 @@ input[type='text']
 	width: 100%;
 	table-layout: fixed;
 }
+
+input[type='range']
+{
+	width: 60%;
+
+}

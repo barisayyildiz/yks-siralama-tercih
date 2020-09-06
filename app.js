@@ -90,6 +90,7 @@ app.post("/query", (req, res) => {
     let query = {
         "uni" : {"$regex" : `${req.body.universite}`, "$options" : "i"},
         "bolum" : {"$regex" : `${req.body.bolum}`, "$options" : "i"},
+        "TabanPuan" : {"$lt" : req.body.max},
         "$or" : []
     };
 
@@ -114,6 +115,9 @@ app.post("/query", (req, res) => {
             console.log(err);
             return;
         }
+
+        if(docs.length > 500)
+            docs = [];
         res.send(docs);   
     })
 

@@ -12,15 +12,19 @@ inputs.forEach(element => element.addEventListener("input", event => {
 
     console.log("qq");
 
+    document.getElementById("max_value").innerText = document.getElementById("max").value;
+    //console.log(document.getElementById("range").value)
+
     //console.log(element.id);
-    console.log(element.value);
+    console.log(Number(element.value));
 
     let data = {
         "universite" : inputs[0].value.turkishToUpper(),
         "bolum" : inputs[1].value,
         "say" : document.getElementById("SAY").checked,
         "ea" : document.getElementById("EA").checked,
-        "soz" : document.getElementById("SÖZ").checked
+        "soz" : document.getElementById("SÖZ").checked,
+        "max" : Number(document.getElementById("max").value)
     };
 
     console.log(data);
@@ -61,7 +65,7 @@ function createNode(data)
     table.innerHTML = "";
     table.appendChild(header);
 
-    if(data.length > 300)
+    if(data.length > 500)
         return;
 
     data = sortByKey(data);
