@@ -27,7 +27,8 @@ const uniSchema = new mongoose.Schema({
     uni : String,
     bolum : String,
     puanTur : String,
-    uniTur : String
+    uniTur : String,
+    siralama : Number
 
 });
 //==================

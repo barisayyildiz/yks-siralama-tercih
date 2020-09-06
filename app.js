@@ -108,19 +108,6 @@ app.post("/query", (req, res) => {
         delete query["$or"];
 
 
-    /*
-    Models.uniModel.find(query, (err, docs) => {
-        if(err)
-        {
-            console.log(err);
-            return;
-        }
-
-        if(docs.length > 500)
-            docs = [];
-        res.send(docs);   
-    })
-    */
 
     Models.uniModel.find(query).sort({TabanPuan: -1}).exec((err, docs) => {
         if(err)
@@ -161,9 +148,6 @@ function removeByUniTur(body, docs)
         if(body.kktc && docs[i].uniTur == "KKTC") temp.push(docs[i]);
         if(body.yurtdisi && docs[i].uniTur == "Yurtdışı") temp.push(docs[i]);
     }
-
-
-    console.log("temp : ", temp);
 
 
     return temp;

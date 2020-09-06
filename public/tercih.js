@@ -89,13 +89,15 @@ function createNode(data)
         let bolum = document.createElement("td");
         let puan = document.createElement("td");
         let tur = document.createElement("td");
+        let sira = document.createElement("td");
 
         uni.innerText = data[i].uni;
         bolum.innerText = data[i].bolum;
         puan.innerText = data[i].TabanPuan;
         tur.innerText = data[i].puanTur;
+        sira.innerText = data[i].siralama;
 
-        row.appendChild(uni), row.appendChild(bolum), row.appendChild(puan), row.appendChild(tur);
+        row.appendChild(uni), row.appendChild(bolum), row.appendChild(puan), row.appendChild(tur), row.appendChild(sira);
         document.querySelector("table").appendChild(row);
 
 
