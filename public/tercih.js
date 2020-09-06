@@ -68,7 +68,7 @@ function createNode(data)
     if(data.length > 500)
         return;
 
-    data = sortByKey(data);
+    //data = sortByKey(data);
     data = trimData(data);
 
     //console.log(data);

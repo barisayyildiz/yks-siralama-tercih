@@ -108,7 +108,7 @@ app.post("/query", (req, res) => {
         delete query["$or"];
 
 
-
+    /*
     Models.uniModel.find(query, (err, docs) => {
         if(err)
         {
@@ -119,6 +119,19 @@ app.post("/query", (req, res) => {
         if(docs.length > 500)
             docs = [];
         res.send(docs);   
+    })
+    */
+
+    Models.uniModel.find(query).sort({TabanPuan: -1}).exec((err, docs) => {
+        if(err)
+        {
+            console.log(err);
+            return;
+        }
+
+        if(docs.length > 500)
+            docs = [];
+        res.send(docs);
     })
 
 
