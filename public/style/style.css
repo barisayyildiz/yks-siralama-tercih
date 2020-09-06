@@ -1,8 +1,3 @@
-body
-{
-    font-size: 0.8em;
-}
-
 
 .wrapper
 {
@@ -22,6 +17,14 @@ input
     width: 100%;
     border: none;
     text-align: center;
+}
+
+input[type='submit']
+{
+    background-color: rgb(232,230,251);
+    width: 30%;
+    margin : 0px 50%;
+    transform: translateX(-50%);
 }
 
 
@@ -51,16 +54,21 @@ table tr td
     {
         padding : 5px 1px;
     }
-    
-    .wrapper
-    {
-    }
 
     .wrapper  div  table
     {
         table-layout: fixed;
         margin : 10px auto;
     }
+
+    input[type='submit']
+    {
+        background-color: rgb(232,230,251);
+        width: 70%;
+        margin : 0px 50%;
+        transform: translateX(-50%);
+    }
+
 
 }
 
