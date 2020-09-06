@@ -24,6 +24,10 @@ inputs.forEach(element => element.addEventListener("input", event => {
         "say" : document.getElementById("SAY").checked,
         "ea" : document.getElementById("EA").checked,
         "soz" : document.getElementById("SÖZ").checked,
+        "devlet" : document.getElementById("devlet").checked,
+        "ozel" : document.getElementById("ozel").checked,
+        "kktc" : document.getElementById("kktc").checked,
+        "yurtdisi" : document.getElementById("yurtdisi").checked,
         "max" : Number(document.getElementById("max").value)
     };
 
@@ -69,7 +73,7 @@ function createNode(data)
         return;
 
     //data = sortByKey(data);
-    data = trimData(data);
+    //data = trimData(data);
 
     //console.log(data);
 
@@ -104,47 +108,3 @@ function createNode(data)
 
 }
 
-
-//Üniversite türüne göre çıkar!!
-function trimData(data)
-{
-    let temp = [];
-
-
-    for(let i=0; i<data.length; i++)
-    {
-        if(document.getElementById("devlet").checked && data[i].uniTur == "Devlet") temp.push(data[i]);
-        if(document.getElementById("ozel").checked && data[i].uniTur == "Özel") temp.push(data[i]);
-        if(document.getElementById("kktc").checked && data[i].uniTur == "KKTC") temp.push(data[i]);
-        if(document.getElementById("yurtdisi").checked && data[i].uniTur == "Yurtdışı") temp.push(data[i]);
-    }
-    return temp;
-
-}
-
-
-function sortByKey(data)
-{
-
-    data.forEach(item => {
-        if(item.TabanPuan == undefined)
-            item.TabanPuan = 0;
-    });
-
-
-    for(let i=0; i<data.length; i++)
-    {
-        for(let j=0; j<data.length-i-1; j++)
-        {
-            if(data[j].TabanPuan < data[j+1].TabanPuan)
-            {
-                let temp = data[j];
-                data[j] = data[j+1];
-                data[j+1] = temp;
-            }
-        }
-    }
-
-    return data;
-
-}

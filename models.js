@@ -22,11 +22,12 @@ const yerSchema = new mongoose.Schema({
 
 //===================ÜNİVERSİTELER VERİTABANI
 const uniSchema = new mongoose.Schema({
-    Kod : Number,
-    Tur : String,
     TabanPuan : Number,
+    kod : Number,
     uni : String,
-    bolum : String
+    bolum : String,
+    puanTur : String,
+    uniTur : String
 
 });
 //==================

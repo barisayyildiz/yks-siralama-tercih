@@ -130,59 +130,42 @@ app.post("/query", (req, res) => {
         }
 
         if(docs.length > 500)
+        {
+            console.log("çok fazla")
             docs = [];
+        }
+        else
+        {
+            console.log("docs : ", docs);
+            docs = removeByUniTur(req.body, docs);
+            console.log("İşte okullar...")
+            console.log(docs);
+        }
+
         res.send(docs);
     })
-
-
-    /*
-    let flag = true;
-    if(req.body.say || req.body.ea || req.body.soz)
-        flag = false;
-
-
-    if(flag)
-    {
-        Models.uniModel.find(
-        {
-            "uni" : {"$regex" : `${req.body.universite}`, "$options" : "i"},
-            "bolum" : {"$regex" : `${req.body.bolum}`, "$options" : "i"}
-        }, (err, docs) => {
-            res.send(docs)
-        })
-    }else
-    {
-
-    }
-    */
-
-
-
-    /*
-    if(req.body.id == "uni")
-    {
-
-        Models.uniModel.find(
-            { 
-                "uni": { "$regex": `${req.body.val}`, "$options": "i" }
-            }, (err, docs) => {
-                res.send(docs);
-        });
-
-
-    }else if(req.body.id == "bolum")
-    {
-
-        Models.uniModel.find(
-            { 
-                "bolum": { "$regex": `${req.body.val}`, "$options": "i" }
-            }, (err, docs) => {
-                res.send(docs);
-        });
-
-    }*/
-
     
 
 
 })
+
+
+function removeByUniTur(body, docs)
+{
+    let temp = [];
+
+    for(let i=0; i<docs.length; i++)
+    {
+        if(body.devlet && docs[i].uniTur == "Devlet") temp.push(docs[i]);
+        if(body.ozel && docs[i].uniTur == "Özel") temp.push(docs[i]);
+        if(body.kktc && docs[i].uniTur == "KKTC") temp.push(docs[i]);
+        if(body.yurtdisi && docs[i].uniTur == "Yurtdışı") temp.push(docs[i]);
+    }
+
+
+    console.log("temp : ", temp);
+
+
+    return temp;
+
+}
