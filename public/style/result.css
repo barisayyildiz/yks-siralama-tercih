@@ -45,6 +45,15 @@ th
 
 @media only screen and (max-width : 850px)
 {
+    body
+    {
+        font-size: 3.6vw;
+    }
+    .header
+    {
+        font-size: 4vw;
+    }
+
     table
     {
         float : none;

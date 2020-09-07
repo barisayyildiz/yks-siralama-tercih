@@ -58,7 +58,7 @@ input[type='range']
 {
 	.wrapper
 	{
-		width: 95%;
+		width: 85%;
 	}
 
 	input[type='text']
@@ -74,6 +74,36 @@ input[type='range']
 		width: 85%;
 
 	}
+
+	table tr
+	{
+		font-size: 3vw;
+	}
+
+	table tr th:nth-child(3)
+	{
+		display: none;
+	}
+
+	table tr th:nth-child(4)
+	{
+		display: none;
+	}
+
+	table tr td:nth-child(3)
+	{
+		display: none;
+	}
+
+	table tr td:nth-child(4)
+	{
+		display: none;
+	}
+
+	.header
+    {
+        font-size: 4vw;
+    }
 
 
 }
