@@ -9,19 +9,11 @@ const mongoose = require("mongoose");
 mongoose.connect('mongodb://localhost/yks', {useNewUrlParser: true, useUnifiedTopology: true});
 
 
-/*
-//ÜNİVERSİTELER VERİTABANI
-const schema = new mongoose.Schema({
-    kod : Number,
-    tur : String
-});
-const model = mongoose.model("tercih", {}, "2019_siralama");
-*/
+let portNumber = 3000;
+app.listen(portNumber, () => {console.log(`Listening port number ${portNumber}`)});
 
 
-
-app.listen(3000, () => {console.log("I'm listening...")});
-
+//Middleware Functions
 app.engine("handlebars", exphbs());
 app.set('view engine', "handlebars");
 
@@ -32,10 +24,11 @@ app.use(express.urlencoded({
     extended: true
   }))
 
+//Routers
 app.get("/", (req, res) => {
 
     res.render('index', {
-        style : "./style/style.css"
+        style : "./style/index.css"
     });
 
 })
@@ -84,8 +77,6 @@ app.get("/tercih", (req, res) => {
 app.post("/query", (req, res) => {
 
     let flag;
-    console.log("*********************************************************************************************************");
-    console.log(req.body);
 
     let query = {
         "uni" : {"$regex" : `${req.body.universite}`, "$options" : "i"},
@@ -98,8 +89,6 @@ app.post("/query", (req, res) => {
     if(req.body.say) query["$or"].push({"puanTur" : "SAY"});
     if(req.body.ea) query["$or"].push({"puanTur" : "EA"});
     if(req.body.soz) query["$or"].push({"puanTur" : "SÖZ"});
-
-    console.log("query -> ", query["$or"]);
 
     flag = true;
     if(req.body.say || req.body.ea || req.body.soz)
@@ -118,15 +107,11 @@ app.post("/query", (req, res) => {
 
         if(docs.length > 500)
         {
-            console.log("çok fazla")
             docs = [];
         }
         else
         {
-            console.log("docs : ", docs);
             docs = removeByUniTur(req.body, docs);
-            console.log("İşte okullar...")
-            console.log(docs);
         }
 
         res.send(docs);

@@ -177,8 +177,6 @@ function arrange(data)
 {
     Object.keys(data).forEach(key => {
 
-        console.log(data[key]);
-
         Object.keys(data[key]).forEach(item => {
 
             if(data[key][item] === "")
