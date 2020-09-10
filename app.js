@@ -6,12 +6,12 @@ const Models = require("./models.js");
 const exphbs = require("express-handlebars");
 
 const mongoose = require("mongoose");
-mongoose.connect('mongodb://localhost/yks', {useNewUrlParser: true, useUnifiedTopology: true});
+
+mongoose.connect(process.env.MONGODB_URI ||'mongodb://localhost/yks', {useNewUrlParser: true, useUnifiedTopology: true});
 
 
-let portNumber = 3000;
+let portNumber = process.env.PORT || 3000;
 app.listen(portNumber, () => {console.log(`Listening port number ${portNumber}`)});
-
 
 //Middleware Functions
 app.engine("handlebars", exphbs());
